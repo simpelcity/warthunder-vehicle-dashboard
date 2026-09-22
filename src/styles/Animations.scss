@@ -1,0 +1,8 @@
+.chevron-rotate-180 {
+  display: inline-flex;
+  transition: transform 0.3s ease;
+}
+
+.chevron-rotate-180.is-open {
+  transform: rotate(180deg);
+}
