@@ -27,5 +27,8 @@ export default defineConfig({
         silenceDeprecations: ["color-functions", "global-builtin", "import", "if-function"]
       }
     }
-  }
+  },
+  server: {
+    port: 6000,
+  },
 })
