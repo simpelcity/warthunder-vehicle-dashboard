@@ -1,5 +1,6 @@
 .game-unit_header {
   background-color: #004060 !important;
+  box-sizing: border-box;
 }
 
 .game-unit_card {
@@ -7,6 +8,7 @@
 }
 
 .game-unit_template-flag {
+  top: 10px;
   opacity: .9;
 }
 
@@ -14,20 +16,33 @@
   max-height: 256px;
 }
 
+.game-unit_template::after {
+  --gradient-height: 150px;
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(0deg, #004060, transparent var(--gradient-height));
+}
+
+.game-unit_title {
+  padding: 0 30px;
+}
+
+.game-unit_nation, .game-unit_name {
+  text-shadow: 1px 1px 2px rgba(0,0,0,.75);
+  line-height: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.game-unit_name {
+  line-height: 1.2;
+}
+
 .game-unit_card-info {
   top: 2em;
   right: 3em;
-}
-
-.line-height-1 {
-  line-height: 1 !important;
-}
-
-.game-unit_br-item .mode {
-  line-height: 1;
-  font-size: 14px;
-}
-
-.game-unit_card-info_value div {
-  line-height: 1;
 }

@@ -37,7 +37,7 @@ export default function VehicleCard({ vehicle }: Vehicle) {
               <span className="name">{vehicle.name}</span>
 
               <div className="country d-flex align-items-center justify-content-end column-gap-1">
-                <Image className="" src={getCountryIcons({ country: vehicle.country })} width={20} />
+                <Image className="" src={`https://static.encyclopedia.warthunder.com/gui_skin/${getCountryIcons({ country: vehicle.country })}.svg`} width={20} />
                 <span>{vehicle.country}</span>
               </div>
 

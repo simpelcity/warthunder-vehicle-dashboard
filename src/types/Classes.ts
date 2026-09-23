@@ -1,1 +1,1 @@
-export type Classes = "light" | "medium" | "heavy" | "spg" | "spaa" | "fighter" | "strike" | "bomber";
+export type Class = "light" | "medium" | "heavy" | "spg" | "spaa" | "fighter" | "strike" | "bomber";

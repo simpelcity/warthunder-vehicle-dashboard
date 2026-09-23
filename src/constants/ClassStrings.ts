@@ -1,6 +1,6 @@
-import type { Classes } from '@/types/Classes'
+import type { Class } from '@/types/Classes'
 
-const classStrings: Record<Classes, string> = {
+const classStrings: Record<Class, string> = {
   light: "Light tank",
   medium: "Medium tank",
   heavy: "Heavy tank",
@@ -11,7 +11,7 @@ const classStrings: Record<Classes, string> = {
   bomber: "Bomber"
 }
 
-export function getClassStrings(vehicle: { class: Classes }) {
+export function getClassStrings(vehicle: { class: Class }) {
   const classString = classStrings[vehicle.class];
   return classString;
 }

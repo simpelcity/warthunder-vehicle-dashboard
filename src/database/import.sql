@@ -16,11 +16,11 @@ create table vehicles (
   status text not null
 );
 -- Insert sample data into the table
-insert into vehicles (vehicle_id, name, country, operator, rank, br_ab, br_rb, br_sb, type)
+insert into vehicles (vehicle_id, name, country, operator, rank, br_ab, br_rb, br_sb, class, status)
 values
-  ("germ_pzkpfw_VI_ausf_e_tiger", "Tiger E", "Germany", null, 3, 6.0, 6.0, 6.0, "Heavy tank", "techtree"),
-  ("germ_pzkpfw_VI_ausf_b_tiger_IIh", "Tiger II", "Germany", null, 4, 7.0, 6.7, 6.7, "Heavy tank", "techtree"),
-  ("germ_leopard_2a7v", "Leopard 2A7V", "Germany", "FRG", 8, 12.7, 12.7, 12.7, "Medium tank", "techtree");
+  ('germ_pzkpfw_VI_ausf_e_tiger', 'Tiger E', 'Germany', null, 3, 6.0, 6.0, 6.0, 'heavy', 'techtree'),
+  ('germ_pzkpfw_VI_ausf_b_tiger_IIh', 'Tiger II', 'Germany', null, 4, 7.0, 6.7, 6.7, 'heavy', 'techtree'),
+  ('germ_leopard_2a7v', 'Leopard 2A7V', 'Germany', 'FRG', 8, 12.7, 12.7, 12.7, 'medium', 'techtree');
 -- Grant the privileges the role needs, which is read access
 grant select on public.vehicles to anon;
 -- Enable row level security for the table

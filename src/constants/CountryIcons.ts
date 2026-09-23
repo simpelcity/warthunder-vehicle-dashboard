@@ -1,7 +1,5 @@
 import type { TechTree, Countries } from '@/types/Countries'
 
-const WT_SKIN_BASE = "https://static.encyclopedia.warthunder.com/gui_skin";
-
 const countryIconFile: Record<Countries, string> = {
   USA: "usa",
   Iran: "iran",
@@ -84,8 +82,8 @@ const techTreeFallback: Record<TechTree, string> = {
 };
 
 export function getCountryIcons(vehicle: { country: TechTree, operator?: Countries }) {
-  const fileName = countryIconFile[vehicle?.operator ? vehicle.operator : vehicle.country] ?? techTreeFallback[vehicle.country] ?? "country_usa.svg";
-  if (vehicle.operator === "Serbia") return `${WT_SKIN_BASE}/${fileName}.svg`;
-  if (vehicle.operator === "Republic of China") return `${WT_SKIN_BASE}/flag_${fileName}.svg`
-  else return `${WT_SKIN_BASE}/country_${fileName}.svg`;
+  const fileName = countryIconFile[vehicle?.operator ? vehicle.operator : vehicle.country] ?? techTreeFallback[vehicle.country] ?? "country_usa";
+  if (vehicle.operator === "Serbia") return `${fileName}`;
+  if (vehicle.operator === "Republic of China") return `flag_${fileName}`
+  else return `country_${fileName}`;
 }

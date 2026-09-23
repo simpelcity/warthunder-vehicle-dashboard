@@ -8,6 +8,6 @@ const statusIconFile: Record<Status, string> = {
 }
 
 export function getStatusIcons(vehicle: { status: Status }) {
-  const fileName = statusIconFile[vehicle.status];
-  return `/src/assets/${fileName}.svg`;
+  const statusString = statusIconFile[vehicle.status];
+  return statusString;
 }

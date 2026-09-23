@@ -6,6 +6,9 @@ import { getCountryIcons } from '@/constants/CountryIcons'
 import type { TechTree, Countries } from '@/types/Countries'
 import { getRankStrings } from '@/constants/RankStrings'
 import '@/styles/pages/VehicleDetails.scss'
+import { getClassIcons } from '@/constants/ClassIcons'
+import { getClassStrings } from '@/constants/ClassStrings'
+import type { Class } from '@/types/Classes'
 
 type Vehicle = {
   id: number
@@ -17,7 +20,7 @@ type Vehicle = {
   br_ab: number
   br_rb: number
   br_sb: number
-  type: string
+  class: Class
   status: string
 }
 
@@ -52,25 +55,26 @@ export default function VehicleDetails() {
   return (
     <>
       <Container className="p-4">
-        <Card className="game-unit_header border-0 position-relative overflow-hidden mb-3">
-          <Card.Body className="p-0">
+        <div id="general">
+          <Card className="game-unit_header overflow-hidden border-0 position-relative mb-3 text-light">
             <div className="game-unit_card position-relative">
               <div className="game-unit_template position-absolute w-100 h-100 start-0 top-0">
-                <Image className="game-unit_template-flag position-absolute start-0 top-0 h-50 pt-2" src={`https://static.encyclopedia.warthunder.com/unit_tooltip/country_germany.png`} />
+                <Image className="game-unit_template-flag position-absolute start-0 h-50" src={`https://static.encyclopedia.warthunder.com/unit_tooltip/${getCountryIcons({ country: vehicle.country, operator: vehicle.operator })}.png`} />
 
                 <Image className="game-unit_template-image position-absolute start-0 bottom-0 h-100" src={`https://static.encyclopedia.warthunder.com/images/${vehicle.vehicle_id.toLowerCase()}.png`} />
               </div>
 
-              <div className="game-unit_title position-absolute bottom-0 w-100 px-4 z-1">
-                <div className="game-unit_nation d-flex align-items-end gap-2">Ground Vehicles</div>
-                <div className="game-unit_name fs-1 fw-bold">{vehicle.name}</div>
+              <div className="game-unit_title position-absolute bottom-0 w-100 z-1">
+                <div className="game-unit_nation d-flex align-items-end gap-2 fs-6 overflow-hidden">Ground Vehicles</div>
+                
+                <div className="game-unit_name fs-1 fw-bold overflow-hidden font-wt">{vehicle.name}</div>
               </div>
             </div>
 
             <div className="game-unit_card-info position-absolute d-flex flex-column row-gap-2">
               <div className="game-unit_card-info_line d-flex gap-2 w-100 mw-100">
                 <div className="game-unit_card-info_item game-unit_rank bg-dark-subtle d-flex flex-column py-2 px-3 flex-grow-1 rounded-1">
-                  <div className="game-unit_card-info_value fw-bold fs-3">{getRankStrings(vehicle.rank)}</div>
+                  <div className="game-unit_card-info_value fw-bold">{getRankStrings(vehicle.rank)}</div>
                   <div className="game-unit_card-info_title text-muted small line-height-1">Rank</div>
                 </div>
 
@@ -102,7 +106,7 @@ export default function VehicleDetails() {
               <div className="game-unit_card-info_line d-flex gap-2 w-100 mw-100">
                 <div className="game-unit_card-info_item bg-dark-subtle d-flex flex-column py-2 px-3 flex-grow-1 rounded-1">
                   <div className="game-unit_card-info_value d-flex align-items-center gap-1">
-                    <Image src="https://wiki.warthunder.com/static/country_svg/country_germany.svg" width={20} />
+                    <Image src={`https://static.encyclopedia.warthunder.com/gui_skin/${getCountryIcons({ country: vehicle.country }) }.svg`} height={20} />
 
                     <div className="text-truncate">{vehicle.country}</div>
                   </div>
@@ -113,12 +117,12 @@ export default function VehicleDetails() {
                 <div className="game-unit_card-info_item bg-dark-subtle d-flex flex-column py-2 px-3 flex-grow-1 rounded-1">
                   <div className="game-unit_card-info_value d-flex gap-1">
                     <div>
-                      <svg width="24px" height="24px" viewBox="0 0 10 10" color="#ff6666">
-                        <use href="/src/assets/heavy_tank.svg#icon" width="10" height="10" x="0" y="0"></use>
+                      <svg width="24px" height="24px" viewBox="0 0 10 10" color={getClassIcons({ class: vehicle.class }).color}>
+                        <use href={getClassIcons({ class: vehicle.class }).file} width="10" height="10" x="0" y="0"></use>
                       </svg>
                     </div>
 
-                    <div className="text-truncate">{vehicle.type}</div>
+                    <div className="text-truncate">{getClassStrings({ class: vehicle.class })}</div>
                   </div>
 
                   <div className="game-unit_card-info_title text-muted small">Main role</div>
@@ -154,7 +158,7 @@ export default function VehicleDetails() {
                       <>
                         <div className="game-unit_card-info_item bg-dark-subtle d-flex flex-column py-2 px-3 flex-grow-1 rounded-1">
                           <div className="game-unit_card-info_value d-flex align-items-center gap-1">
-                            <img src="https://static.encyclopedia.warthunder.com/gui_skin/item_type_talisman.svg" height={18} />
+                            <img src={`https://static.encyclopedia.warthunder.com/gui_skin/item_type_talisman.svg`} height={18} />
 
                             <div className="text-truncate">{vehicle.status}</div>
                           </div>
@@ -167,7 +171,7 @@ export default function VehicleDetails() {
                       <>
                         <div className="game-unit_card-info_item bg-dark-subtle d-flex flex-column py-2 px-3 flex-grow-1 rounded-1">
                           <div className="game-unit_card-info_value d-flex align-items-center gap-1">
-                            <img src="https://static.encyclopedia.warthunder.com/gui_skin/country_germany_modern.svg" height={18} />
+                            <img src={`https://static.encyclopedia.warthunder.com/gui_skin/${getCountryIcons({ country: vehicle.country, operator: vehicle.operator }) }.svg`} height={20} />
 
                             <div className="text-truncate">{vehicle.operator}</div>
                           </div>
@@ -179,8 +183,8 @@ export default function VehicleDetails() {
                 </>
               ) : null}
             </div>
-          </Card.Body>
-        </Card>
+          </Card>
+        </div>
       </Container>
     </>
   )
