@@ -14,6 +14,7 @@ type VehicleDetails = {
   br_rb: number
   br_sb: number
   type: string
+  status: string
 }
 
 type Vehicle = {

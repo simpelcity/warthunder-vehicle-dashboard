@@ -19,6 +19,15 @@
   right: 3em;
 }
 
-.game-unit_br-item div {
+.line-height-1 {
+  line-height: 1 !important;
+}
+
+.game-unit_br-item .mode {
+  line-height: 1;
+  font-size: 14px;
+}
+
+.game-unit_card-info_value div {
   line-height: 1;
 }

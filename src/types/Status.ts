@@ -1,0 +1,1 @@
+export type Status = "techtree" | "premium" | "squadron" | "event";

@@ -16,6 +16,7 @@ type Vehicle = {
   br_rb: number
   br_sb: number
   type: string
+  status: string
 }
 
 export default function Home() {

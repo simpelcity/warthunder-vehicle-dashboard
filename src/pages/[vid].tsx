@@ -18,6 +18,7 @@ type Vehicle = {
   br_rb: number
   br_sb: number
   type: string
+  status: string
 }
 
 export default function VehicleDetails() {
@@ -70,25 +71,25 @@ export default function VehicleDetails() {
               <div className="game-unit_card-info_line d-flex gap-2 w-100 mw-100">
                 <div className="game-unit_card-info_item game-unit_rank bg-dark-subtle d-flex flex-column py-2 px-3 flex-grow-1 rounded-1">
                   <div className="game-unit_card-info_value fw-bold fs-3">{getRankStrings(vehicle.rank)}</div>
-                  <div className="game-unit_card-info_title text-muted small">Rank</div>
+                  <div className="game-unit_card-info_title text-muted small line-height-1">Rank</div>
                 </div>
 
                 <div className="game-unit_card-info_item game-unit_br bg-dark-subtle d-flex flex-column py-2 px-3 flex-grow-1 rounded-1">
-                  <div className="game-unit_card-info_value d-flex justify-content-between">
+                  <div className="game-unit_card-info_value d-flex justify-content-around">
                     <div className="game-unit_br-item text-center">
-                      <div className="mode text-muted fs-6">AB</div>
+                      <div className="mode text-muted">AB</div>
 
                       <div className="value fw-bold">{ensureDecimal(vehicle.br_ab)}</div>
                     </div>
 
                     <div className="game-unit_br-item text-center">
-                      <div className="mode text-muted fs-6">RB</div>
+                      <div className="mode text-muted">RB</div>
 
                       <div className="value fw-bold">{ensureDecimal(vehicle.br_rb)}</div>
                     </div>
 
                     <div className="game-unit_br-item text-center">
-                      <div className="mode text-muted fs-6">SB</div>
+                      <div className="mode text-muted">SB</div>
 
                       <div className="value fw-bold">{ensureDecimal(vehicle.br_sb)}</div>
                     </div>
@@ -110,7 +111,7 @@ export default function VehicleDetails() {
                 </div>
 
                 <div className="game-unit_card-info_item bg-dark-subtle d-flex flex-column py-2 px-3 flex-grow-1 rounded-1">
-                  <div className="game-unit_card-info_value d-flex">
+                  <div className="game-unit_card-info_value d-flex gap-1">
                     <div>
                       <svg width="24px" height="24px" viewBox="0 0 10 10" color="#ff6666">
                         <use href="/src/assets/heavy_tank.svg#icon" width="10" height="10" x="0" y="0"></use>
@@ -146,20 +147,37 @@ export default function VehicleDetails() {
                 </div>
               </div> */}
 
-              {vehicle.operator && (
+              {(vehicle.status || vehicle.operator) ? (
                 <>
                   <div className="game-unit_card-info_line d-flex gap-2 w-100 mw-100">
-                    <div className="game-unit_card-info_item bg-dark-subtle d-flex flex-column py-2 px-3 flex-grow-1 rounded-1">
-                      <div className="game-unit_card-info_value d-flex align-items-center gap-1">
-                        <img src="https://static.encyclopedia.warthunder.com/gui_skin/country_germany_modern.svg" height={18} />
+                    {vehicle.status && (
+                      <>
+                        <div className="game-unit_card-info_item bg-dark-subtle d-flex flex-column py-2 px-3 flex-grow-1 rounded-1">
+                          <div className="game-unit_card-info_value d-flex align-items-center gap-1">
+                            <img src="https://static.encyclopedia.warthunder.com/gui_skin/item_type_talisman.svg" height={18} />
 
-                        <div className="text-truncate">{vehicle.operator}</div>
-                      </div>
-                      <div className="game-unit_card-info_title text-muted small">Operator</div>
-                    </div>
+                            <div className="text-truncate">{vehicle.status}</div>
+                          </div>
+                          <div className="game-unit_card-info_title text-muted small">Status</div>
+                        </div>
+                      </>
+                    )}
+
+                    {vehicle.operator && (
+                      <>
+                        <div className="game-unit_card-info_item bg-dark-subtle d-flex flex-column py-2 px-3 flex-grow-1 rounded-1">
+                          <div className="game-unit_card-info_value d-flex align-items-center gap-1">
+                            <img src="https://static.encyclopedia.warthunder.com/gui_skin/country_germany_modern.svg" height={18} />
+
+                            <div className="text-truncate">{vehicle.operator}</div>
+                          </div>
+                          <div className="game-unit_card-info_title text-muted small">Operator</div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </>
-              )}
+              ) : null}
             </div>
           </Card.Body>
         </Card>
