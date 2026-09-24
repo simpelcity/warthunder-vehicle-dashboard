@@ -2,13 +2,12 @@ import { Card, Image } from 'react-bootstrap'
 import { getCountryIcons } from '@/constants/CountryIcons'
 import { getRankStrings } from '@/constants/RankStrings'
 import type { Vehicle } from '@/types/Vehicle'
-import { getStatusColors } from '@/constants/StatusColors'
 
-type VehicleDetails = {
+type VehicleCard = {
   vehicle: Vehicle
 }
 
-export default function VehicleCard({ vehicle }: VehicleDetails) {
+export default function VehicleCard({ vehicle }: VehicleCard) {
   function ensureDecimal(num: number): string {
     return Number.isInteger(num) ? `${num}.0` : num.toString();
   }

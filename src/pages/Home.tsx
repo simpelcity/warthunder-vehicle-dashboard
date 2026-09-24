@@ -5,7 +5,7 @@ import { VehicleCard } from '@/components'
 import '@/styles/pages/Home.scss'
 import type { Vehicle } from '@/types/Vehicle'
 
-export default function Home() {
+export default function HomePage() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
   useEffect(() => {
