@@ -8,3 +8,16 @@
 // .br {
 //   pointer-events: none;
 // }
+
+.wt-tree_item {
+  background-image: url('/src/assets/backgrounds/bg-techtree.png');
+  background-size: cover;
+}
+
+.wt-tree_item--squadron {
+  background-image: url('/src/assets/backgrounds/bg-squadron.png');
+}
+
+.wt-tree_item--premium {
+  background-image: url('/src/assets/backgrounds/bg-premium.png');
+}

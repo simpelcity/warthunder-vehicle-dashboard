@@ -1,13 +1,13 @@
 import type { Status } from '@/types/Status'
 
-const statusIconFile: Record<Status, string> = {
-  techtree: "",
-  premium: "",
-  squadron: "",
-  event: ""
+const statusStrings: Record<Status, string> = {
+  techtree: "Techtree",
+  premium: "Premium",
+  squadron: "Squadron",
+  event: "Event"
 }
 
-export function getStatusIcons(vehicle: { status: Status }) {
-  const fileName = statusIconFile[vehicle.status];
-  return `/src/assets/status/${fileName}.svg`;
+export function getStatusStrings(vehicle: { status: Status }) {
+  const statusString = statusStrings[vehicle.status];
+  return `${statusString} vehicle`;
 }

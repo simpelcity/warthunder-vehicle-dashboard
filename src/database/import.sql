@@ -13,14 +13,17 @@ create table vehicles (
   br_rb decimal(8, 1) not null,
   br_sb decimal(8,1) not null,
   class text not null,
-  status text not null
+  status text not null,
+  nation text not null
 );
 -- Insert sample data into the table
-insert into vehicles (vehicle_id, name, country, operator, rank, br_ab, br_rb, br_sb, class, status)
+insert into vehicles (vehicle_id, name, country, operator, rank, br_ab, br_rb, br_sb, class, status, nation)
 values
-  ('germ_pzkpfw_VI_ausf_e_tiger', 'Tiger E', 'Germany', null, 3, 6.0, 6.0, 6.0, 'heavy', 'techtree'),
-  ('germ_pzkpfw_VI_ausf_b_tiger_IIh', 'Tiger II', 'Germany', null, 4, 7.0, 6.7, 6.7, 'heavy', 'techtree'),
-  ('germ_leopard_2a7v', 'Leopard 2A7V', 'Germany', 'FRG', 8, 12.7, 12.7, 12.7, 'medium', 'techtree');
+  ('germ_pzkpfw_VI_ausf_b_tiger_IIh', 'Tiger II', 'Germany', null, 4, 7.0, 6.7, 6.7, 'heavy', 'techtree', 'ground'),
+  ('germ_leopard_2pl', 'Leopard 2PL', 'Germany', 'Poland', 8, 12.3, 12.3, 12.3, 'medium', 'squadron', 'ground'),
+  ('germ_leopard_2a4m_can', 'Leopard 2A4M', 'Germany', 'Canada (modern)', 7, 12.0, 12.0, 12.0, 'medium', 'premium', 'ground'),
+  ('germ_leopard_2a5_yt_cup_2019', '␙Leopard 2A5', 'Germany', 'FRG', 8, 12.3, 12.3, 12.3, 'medium', 'event', 'ground'),
+  ('f_16am_block_20_mlu_netherlands', '◘F-16AM', 'France', 'Netherlands', 8, 13.7, 13.7, 13.7, 'fighter', 'premium', 'aviation');
 -- Grant the privileges the role needs, which is read access
 grant select on public.vehicles to anon;
 -- Enable row level security for the table

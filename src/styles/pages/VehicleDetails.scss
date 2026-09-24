@@ -4,7 +4,7 @@
 }
 
 .game-unit_card {
-  padding-top: 35% !important;
+  padding-top: 336px;
 }
 
 .game-unit_template-flag {
@@ -45,4 +45,86 @@
 .game-unit_card-info {
   top: 2em;
   right: 3em;
+  width: 320px;
+  line-height: 1;
+  gap: 5px;
+  transition: opacity .8s;
+}
+
+.game-unit_card-info_line {
+  gap: 5px;
+}
+
+.game-unit_card-info_item {
+  padding: 8px 12px;
+  min-height: 50px;
+  gap: 2px;
+  backdrop-filter: blur(5px);
+  box-shadow: rgba(0,0,0,0.2) 0px 0.5rem 1rem;
+}
+
+.game-unit_rank .game-unit_card-info_value {
+  letter-spacing: 1px;
+  margin-bottom: 3px;
+}
+
+.game-unit_card-info_title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.game-unit_br .game-unit_card-info_value {
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  margin-bottom: 2px;
+}
+
+.game-unit_br-item {
+  max-width: 55px;
+}
+
+.text-gray {
+  line-height: 1;
+  color: #ccc;
+  margin-bottom: 1px;
+}
+
+.game-unit_card-info_value {
+  gap: 5px;
+}
+
+.game-unit_controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 50px;
+  overflow: hidden;
+  overflow-x: auto;
+  padding: 0 30px;
+}
+
+.game-unit_control {
+  height: 30px;
+  gap: 6px;
+  font-size: 13px !important;
+  line-height: 0 !important;
+  white-space: nowrap;
+  transition: box-shadow .2s, background-color .2s;
+  position: relative;
+}
+
+.game-unit_control-help {
+  line-height: 0 !important;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  right: -6px;
+  top: -4px;
+  border: 1px solid #b1b1b1 !important;
+  transition: background-color .2s;
+}
+
+.btn-dark {
+  background-color: #232324 !important;
+  padding: 0 10px !important;
 }

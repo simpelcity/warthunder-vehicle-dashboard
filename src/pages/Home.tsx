@@ -3,21 +3,7 @@ import { supabase } from '@/lib/supabaseClient'
 import { Container, Row, Col } from 'react-bootstrap'
 import { VehicleCard } from '@/components'
 import '@/styles/pages/Home.scss'
-import type { TechTree, Countries } from '@/types/Countries'
-
-type Vehicle = {
-  id: number
-  vehicle_id: string
-  name: string
-  country: TechTree
-  operator: Countries
-  rank: number
-  br_ab: number
-  br_rb: number
-  br_sb: number
-  type: string
-  status: string
-}
+import type { Vehicle } from '@/types/Vehicle'
 
 export default function Home() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -42,9 +28,9 @@ export default function Home() {
       <Container className="p-4">
         <h1>War Thunder Vehicle Dashboard</h1>
 
-        <Row className="">
+        <Row className="row-gap-3">
           {vehicles.map((vehicle) => (
-            <Col key={vehicle.id} xs={12} md={6} lg={3}>
+            <Col key={vehicle.id} xs={12} md={6} lg={3} className="px-2">
               <VehicleCard vehicle={vehicle} />
             </Col>
           ))}

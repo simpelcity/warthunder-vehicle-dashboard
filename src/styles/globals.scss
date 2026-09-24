@@ -6,12 +6,16 @@
   src: url("/src/assets/fonts/symbols_skyquake.bfc9728c6a6bc73f209a.ttf");
 }
 
+:root {
+  --bs-dark-bg-subtle: #1b1b1bcc;
+}
+
 .font-wt {
   font-family: "WTSymbols", "Nunito" !important;
 }
 
-.font-sans {
-  font-family: "IBM Plex Sans" !important;
+.font-roboto {
+  font-family: "Roboto" !important;
 }
 
 body {
@@ -58,4 +62,8 @@ html {
 
 .fs-11 {
   font-size: 11px !important;
+}
+
+.text-muted {
+  color: #a4a4a4 !important;
 }
