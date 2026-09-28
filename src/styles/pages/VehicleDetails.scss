@@ -139,6 +139,134 @@
   }
 }
 
+.game-unit_content {
+  display: grid;
+  grid-template-columns: 600px 300px;
+  gap: 20px;
+}
+
+.block {
+  width: 100%;
+  background-color: #232324 !important;
+}
+
+.block-header {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  gap: 0.5rem;
+  padding: 10px 15px !important;
+  background-color: #232324 !important;
+}
+
+.block-content {
+  padding: 10px 15px !important;
+}
+
+.game-unit_weapon {
+  position: relative;
+  border: 1px solid #404040;
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  padding: 10px 14px;
+  margin-bottom: 18px;
+}
+
+.game-unit_weapon:first-child {
+  margin-top: .5em;
+}
+
+.game-unit_weapon-title {
+  position: absolute;
+  top: -12px;
+  background-color: #232324;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
+  font-size: 16px;
+}
+
+.game-unit_chars {
+  column-count: 2;
+  font-size: 15px;
+}
+
+.game-unit_chars-block {
+  break-inside: avoid;
+}
+
+.game-unit_chars-line, .game-unit_chars-subline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  border-bottom: 1px dashed #404040;
+  margin-bottom: 5px;
+  padding-bottom: 3px;
+}
+
+.game-unit_chars-header {
+  font-weight: 600 !important;
+  align-self: flex-start;
+  text-align: left;
+}
+
+.game-unit_chars-value {
+  font-size: .95em;
+  text-align: right;
+}
+
+.game-unit_chars-subline {
+  padding-left: 15px !important;
+}
+
+.game-unit_chars-info {
+  font-size: .75em;
+}
+
+.accordion-button {
+  font-size: 13px !important;
+  padding: .6rem !important;
+  font-weight: bold;
+}
+
+.game-unit_belt-list {
+  width: 100%;
+  text-align: center;
+  font-size: .8em;
+  white-space: nowrap;
+  margin: 0 !important;
+}
+
+.game-unit_belt-list thead tr th {
+  background-color: #404040 !important;
+  font-size: 12.8px !important;
+}
+
+.game-unit_belt-list tr {
+  border-bottom: 1px solid #404040;
+}
+
+.game-unit_belt-list td {
+  padding: 4px 0 !important;
+}
+
+.game-unit_b-icon {
+  width: 26px;
+  height: 26px;
+}
+
+.shell-designation {
+  font-size: 12.8px;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
+.shell-variant, .shell-pen {
+  font-size: 12.16px !important;
+}
+
 @media (max-width: 576px) {
   .game-unit_card {
     padding-top: 50%;

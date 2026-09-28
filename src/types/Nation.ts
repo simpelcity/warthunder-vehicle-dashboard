@@ -1,1 +1,0 @@
-export type Nation = "aviation" | "helicopters" | "ground" | "ships" | "boats";

@@ -1,6 +1,6 @@
-import type { Class } from '@/types/Classes'
+import type { VehicleClass } from '@/src/types/VehicleClasses'
 
-const classIconFile: Record<Class, string> = {
+const classIconFile: Record<VehicleClass, string> = {
   light: "light_tank",
   medium: "medium_tank",
   heavy: "heavy_tank",
@@ -11,7 +11,7 @@ const classIconFile: Record<Class, string> = {
   bomber: "bomber"
 }
 
-const classIconColor: Record<Class, string> = {
+const classIconColor: Record<VehicleClass, string> = {
   light: "#ffeeee",
   medium: "#ffaaaa",
   heavy: "#ff6666",
@@ -22,8 +22,8 @@ const classIconColor: Record<Class, string> = {
   bomber: "#a3b1ff"
 }
 
-export function getClassIcons(vehicle: { class: Class }) {
-  const fileName = classIconFile[vehicle.class];
-  const color = classIconColor[vehicle.class];
+export function getClassIcons(class_id: VehicleClass) {
+  const fileName = classIconFile[class_id];
+  const color = classIconColor[class_id];
   return { file: `/src/assets/class/${fileName}.svg`, color };
 }

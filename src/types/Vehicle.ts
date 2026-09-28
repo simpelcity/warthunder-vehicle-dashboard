@@ -1,19 +1,24 @@
 import type { TechTree, Countries } from '@/types/Countries'
-import type { Class } from '@/types/Classes'
-import type { Nation } from '@/types/Nation'
-import type { Status } from '@/types/Status'
+import type { VehicleClass } from '@/src/types/VehicleClasses'
+import type { VehicleType } from '@/src/types/VehicleTypes'
+import type { VehicleStatus } from '@/src/types/VehicleStatuses'
 
 export type Vehicle = {
-  id: number
-  vehicle_id: string
+  id: string
   name: string
-  country: TechTree
-  operator: Countries
   rank: number
-  br_ab: number
-  br_rb: number
-  br_sb: number
-  class: Class
-  status: Status
-  nation: Nation
+  battle_rating_rb: number
+  nations: {
+    id: string
+    name: string
+  }[]
+  status_id: string
+}
+
+export type VehicleDetails = {
+  id: string
+  name: string
+  battle_rating_ab: number
+  battle_rating_rb: number
+  battle_rating_sb: number
 }

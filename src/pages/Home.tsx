@@ -6,7 +6,7 @@ import '@/styles/pages/Home.scss'
 import type { Vehicle } from '@/types/Vehicle'
 
 export default function HomePage() {
-  const [vehicles, setVehicles] = useState<any[]>([]);
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
   useEffect(() => {
     getVehicles();
@@ -18,6 +18,7 @@ export default function HomePage() {
       name,
       rank,
       battle_rating_rb,
+      status_id,
       nations (id, name)
     `);
 
@@ -25,6 +26,8 @@ export default function HomePage() {
       console.error(error);
       return
     }
+
+    console.log(data)
 
     setVehicles(data);
   }

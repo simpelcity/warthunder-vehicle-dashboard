@@ -1,0 +1,1 @@
+export type VehicleType = "air" | "helis" | "ground" | "ships" | "boats";

@@ -1,0 +1,1 @@
+export type VehicleClass = "light" | "medium" | "heavy" | "spg" | "spaa" | "fighter" | "strike" | "bomber";

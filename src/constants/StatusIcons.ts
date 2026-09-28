@@ -1,4 +1,4 @@
-import type { Status } from '@/types/Status'
+import type { Status } from '@/src/types/VehicleStatuses'
 
 const statusIconFile: Record<Status, string> = {
   techtree: "item_type_rp",

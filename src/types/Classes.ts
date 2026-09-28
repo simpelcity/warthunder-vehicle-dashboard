@@ -1,1 +1,0 @@
-export type Class = "light" | "medium" | "heavy" | "spg" | "spaa" | "fighter" | "strike" | "bomber";

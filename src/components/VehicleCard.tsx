@@ -4,7 +4,7 @@ import { getRankStrings } from '@/constants/RankStrings'
 import type { Vehicle } from '@/types/Vehicle'
 
 type VehicleCard = {
-  vehicle: any
+  vehicle: Vehicle
 }
 
 export default function VehicleCard({ vehicle }: VehicleCard) {
@@ -19,12 +19,10 @@ export default function VehicleCard({ vehicle }: VehicleCard) {
     return vehicleId
   }
 
-  console.log(vehicle)
-
   return (
     <>
       <a className="wt-tree_item-link text-decoration-none" href={`/vehicle/${vehicle.id}`}>
-        <Card className={`wt-tree_item${(vehicle.vehicle_type_id === 'techtree' || vehicle.vehicle_type_id === 'event') ? '' : ` wt-tree_item--${vehicle.status}`} border-0`}>
+        <Card className={`wt-tree_item${(vehicle.status_id === 'techtree' || vehicle.status_id === 'event') ? '' : ` wt-tree_item--${vehicle.status_id}`} border-0`}>
           <Card.Body className="d-flex p-2">
             <Image className="wt-tree_item-icon h-100" src={`https://static.encyclopedia.warthunder.com/slots/${getVehicleIcons(vehicle.id.toLowerCase())}.png`} />
 
@@ -32,8 +30,8 @@ export default function VehicleCard({ vehicle }: VehicleCard) {
               <span className="name font-wt">{vehicle.name}</span>
 
               <div className="country d-flex align-items-center justify-content-end column-gap-1">
-                <Image className="" src={`https://static.encyclopedia.warthunder.com/gui_skin/${getCountryIcons({ country: vehicle.nations.name })}.svg`} width={20} />
-                <span>{vehicle.country}</span>
+                <Image className="" src={`https://static.encyclopedia.warthunder.com/gui_skin/${getCountryIcons({ nation: vehicle.nations.id })}.svg`} width={20} />
+                <span>{vehicle.nations.name}</span>
               </div>
 
               <span className="rank">Rank {getRankStrings(vehicle.rank)}</span>

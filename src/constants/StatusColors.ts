@@ -1,4 +1,4 @@
-import type { Status } from '@/types/Status'
+import type { Status } from '@/src/types/VehicleStatuses'
 
 const statusColors: Record<Status, string> = {
   techtree: "#2c404c",

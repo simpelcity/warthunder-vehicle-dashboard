@@ -24,22 +24,116 @@ export default function VehicleDetailsPage() {
   }, [])
   
   async function getVehicle() {
-    const { data, error } = await supabase.from('vehicles').select(`
-      *,
-      nations (*),
-      operators(*),
-      vehicle_types (*),
-      vehicle_statuses (*),
-      vehicle_classes (*)
-    `).eq('id', id);
+    // const { data, error } = await supabase.from('vehicles').select(`
+    //   *,
+    //   nations (*),
+    //   operators(*),
+    //   vehicle_types (*),
+    //   vehicle_statuses (*),
+    //   vehicle_classes (*),
+    //   vehicle_weapons (*)
+    // `).eq('id', id);
+
+    const { data, error } = await supabase
+      .from("vehicles")
+      .select(`
+        *,
+
+        nations (*),
+
+        operators (*),
+
+        vehicle_types (*),
+
+        vehicle_statuses (*),
+
+        vehicle_classes (*),
+
+        vehicle_weapons (
+          id,
+          type,
+          quantity,
+          slot,
+          ammo_quantity,
+          first_order_ammo,
+          reload_time_seconds,
+          belt_capacity,
+          fire_rate_rpm,
+
+          weapon:weapons (
+            id,
+            name,
+            weapon_type,
+            caliber_mm,
+
+            weapon_ammunition (
+              id,
+              position,
+              is_default,
+              max_quantity,
+
+              ammunition:ammunition (
+                id,
+                designation,
+                category,
+                family,
+                variant,
+                damage_type
+              )
+            )
+          ),
+
+          vehicle_ammunition (
+            *,
+
+            ammunition:ammunition (
+              id,
+              designation,
+              category,
+              family,
+              variant,
+              damage_type
+            )
+          ),
+
+          vehicle_belts (
+            vehicle_id,
+            belt_id,
+            vehicle_weapon_id,
+
+            belt:belts (
+              id,
+              name,
+              belt_filling,
+              max_penetration_mm,
+
+              belt_ammunition (
+                position,
+                quantity,
+
+                ammunition:ammunition (
+                  id,
+                  designation,
+                  category,
+                  family,
+                  variant,
+                  damage_type
+                )
+              )
+            )
+          )
+        )
+      `)
+      .eq("id", id)
+      .single();
     
     if (error) {
       console.error(error);
       return
     }
-    console.log(data[0]);
+    console.log(data);
     
-    setVehicle(data[0]);
+    setVehicle(data);
   }
   
   if (!vehicle) return
@@ -53,9 +147,7 @@ export default function VehicleDetailsPage() {
           <p className="my-auto">Back to Home</p>
         </Button>
 
-        <div id="general">
-          <VehicleDetails vehicle={vehicle} />
-        </div>
+        <VehicleDetails vehicle={vehicle} />
       </Container>
     </>
   )

@@ -103,7 +103,7 @@ create table public.nations (
 
 create table public.operators (
     id text primary key,
-    name text not null unique
+    name text not null
 );
 
 
