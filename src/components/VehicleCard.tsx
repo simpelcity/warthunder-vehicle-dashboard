@@ -4,7 +4,7 @@ import { getRankStrings } from '@/constants/RankStrings'
 import type { Vehicle } from '@/types/Vehicle'
 
 type VehicleCard = {
-  vehicle: Vehicle
+  vehicle: any
 }
 
 export default function VehicleCard({ vehicle }: VehicleCard) {
@@ -19,24 +19,26 @@ export default function VehicleCard({ vehicle }: VehicleCard) {
     return vehicleId
   }
 
+  console.log(vehicle)
+
   return (
     <>
-      <a className="wt-tree_item-link text-decoration-none" href={`/vehicle/${vehicle.vehicle_id}`}>
-        <Card className={`wt-tree_item${(vehicle.status === 'techtree' || vehicle.status === 'event') ? '' : ` wt-tree_item--${vehicle.status}`} border-0`}>
+      <a className="wt-tree_item-link text-decoration-none" href={`/vehicle/${vehicle.id}`}>
+        <Card className={`wt-tree_item${(vehicle.vehicle_type_id === 'techtree' || vehicle.vehicle_type_id === 'event') ? '' : ` wt-tree_item--${vehicle.status}`} border-0`}>
           <Card.Body className="d-flex p-2">
-            <Image className="wt-tree_item-icon h-100" src={`https://static.encyclopedia.warthunder.com/slots/${getVehicleIcons(vehicle.vehicle_id.toLowerCase())}.png`} />
+            <Image className="wt-tree_item-icon h-100" src={`https://static.encyclopedia.warthunder.com/slots/${getVehicleIcons(vehicle.id.toLowerCase())}.png`} />
 
             <div className="w-100 d-flex flex-column text-end">
               <span className="name font-wt">{vehicle.name}</span>
 
               <div className="country d-flex align-items-center justify-content-end column-gap-1">
-                <Image className="" src={`https://static.encyclopedia.warthunder.com/gui_skin/${getCountryIcons({ country: vehicle.country })}.svg`} width={20} />
+                <Image className="" src={`https://static.encyclopedia.warthunder.com/gui_skin/${getCountryIcons({ country: vehicle.nations.name })}.svg`} width={20} />
                 <span>{vehicle.country}</span>
               </div>
 
               <span className="rank">Rank {getRankStrings(vehicle.rank)}</span>
 
-              <span className="br">BR {ensureDecimal(vehicle.br_rb)}</span>
+              <span className="br">BR {ensureDecimal(vehicle.battle_rating_rb)}</span>
             </div>
           </Card.Body>
         </Card>

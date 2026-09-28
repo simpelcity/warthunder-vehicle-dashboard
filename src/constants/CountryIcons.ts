@@ -82,7 +82,7 @@ const techTreeFallback: Record<TechTree, string> = {
 };
 
 export function getCountryIcons(vehicle: { country: TechTree, operator?: Countries }) {
-  const fileName = countryIconFile[vehicle?.operator ? vehicle.operator : vehicle.country] ?? techTreeFallback[vehicle.country] ?? "country_usa";
+  const fileName = countryIconFile[vehicle?.operator ? vehicle.operator : vehicle.country] ?? techTreeFallback[vehicle.country] ?? "usa";
   if (vehicle.operator === "Serbia") return `${fileName}`;
   if (vehicle.operator === "Republic of China") return `flag_${fileName}`
   else return `country_${fileName}`;

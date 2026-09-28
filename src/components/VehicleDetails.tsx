@@ -2,10 +2,7 @@ import { Card, Image, Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { getCountryIcons } from '@/constants/CountryIcons'
 import { getRankStrings } from '@/constants/RankStrings'
 import { getClassIcons } from '@/constants/ClassIcons'
-import { getClassStrings } from '@/constants/ClassStrings'
 import { FaRegHeart, FaHeart, FaScaleBalanced } from 'react-icons/fa6'
-import { getNationStrings } from '@/constants/NationStrings'
-import { getStatusStrings } from '@/constants/StatusStrings'
 import { getStatusIcons } from '@/constants/StatusIcons'
 import { BsQuestion } from "react-icons/bs";
 import { IoShareSocialOutline } from "react-icons/io5";
@@ -13,7 +10,7 @@ import { TbDeviceDesktopShare } from "react-icons/tb";
 import type { Vehicle } from '@/types/Vehicle'
 
 type VehicleDetails = {
-  vehicle: Vehicle
+  vehicle: any
 }
 
 export default function VehicleDetails({ vehicle }: VehicleDetails) {
@@ -30,19 +27,19 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
       <Card className="game-unit_header overflow-hidden border-0 position-relative mb-3 text-light">
         <div className="game-unit_card position-relative">
           <div className="game-unit_template position-absolute w-100 h-100 start-0 top-0">
-            <Image className="game-unit_template-flag position-absolute start-0 h-50" src={`https://static.encyclopedia.warthunder.com/unit_tooltip/${getCountryIcons({ country: vehicle.country, operator: vehicle.operator })}.png`} />
+            <Image className="game-unit_template-flag position-absolute start-0 h-50" src={`https://static.encyclopedia.warthunder.com/unit_tooltip/${getCountryIcons({ country: vehicle.nations.name, operator: vehicle.operators.name })}.png`} />
 
-            <Image className="game-unit_template-image position-absolute start-0 bottom-0 h-100" src={`https://static.encyclopedia.warthunder.com/images/${vehicle.vehicle_id.toLowerCase()}.png`} />
+            <Image className="game-unit_template-image position-absolute start-0 bottom-0 h-100" src={`https://static.encyclopedia.warthunder.com/images/${vehicle.id.toLowerCase()}.png`} />
           </div>
 
           <div className="game-unit_title position-absolute bottom-0 w-100 z-1">
-            <div className="game-unit_nation d-flex align-items-end gap-2 fs-6 overflow-hidden">{getNationStrings({ nation: vehicle.nation })}</div>
+            <div className="game-unit_nation d-flex align-items-end gap-2 overflow-hidden">{vehicle.vehicle_types.name}</div>
 
-            <div className="game-unit_name fs-1 fw-bold overflow-hidden font-wt">{vehicle.name}</div>
+            <div className="game-unit_name fw-bold overflow-hidden font-wt">{vehicle.name}</div>
           </div>
         </div>
 
-        <div className="game-unit_card-info position-absolute d-flex flex-column">
+        <div className="game-unit_card-info d-flex flex-column">
           <div className="game-unit_card-info_line d-flex w-100 mw-100">
             <div className="game-unit_card-info_item game-unit_rank flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden">
               <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-4 fw-bold">{getRankStrings(vehicle.rank)}</div>
@@ -54,19 +51,19 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                 <div className="game-unit_br-item flex-grow-1 text-center position-relative">
                   <div className="mode text-gray fs-11">AB</div>
 
-                  <div className="value fw-bold fs-17">{ensureDecimal(vehicle.br_ab)}</div>
+                  <div className="value fw-bold fs-17">{ensureDecimal(vehicle.battle_rating_ab)}</div>
                 </div>
 
                 <div className="game-unit_br-item flex-grow-1 text-center position-relative">
                   <div className="mode text-gray fs-11">RB</div>
 
-                  <div className="value fw-bold fs-17">{ensureDecimal(vehicle.br_rb)}</div>
+                  <div className="value fw-bold fs-17">{ensureDecimal(vehicle.battle_rating_rb)}</div>
                 </div>
 
                 <div className="game-unit_br-item flex-grow-1 text-center position-relative">
                   <div className="mode text-gray fs-11">SB</div>
 
-                  <div className="value fw-bold fs-17">{ensureDecimal(vehicle.br_sb)}</div>
+                  <div className="value fw-bold fs-17">{ensureDecimal(vehicle.battle_rating_sb)}</div>
                 </div>
               </div>
 
@@ -77,9 +74,9 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
           <div className="game-unit_card-info_line d-flex w-100 mw-100">
             <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden">
               <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-15">
-                <Image src={`https://static.encyclopedia.warthunder.com/gui_skin/${getCountryIcons({ country: vehicle.country })}.svg`} width={20} height={18} />
+                <Image src={`https://static.encyclopedia.warthunder.com/gui_skin/${getCountryIcons({ country: vehicle.nations.name })}.svg`} width={20} height={18} />
 
-                <div className="text-truncate">{vehicle.country}</div>
+                <div className="text-truncate">{vehicle.nations.name}</div>
               </div>
 
               <div className="game-unit_card-info_title text-muted fs-12 overflow-hidden">Research country</div>
@@ -87,11 +84,11 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
 
             <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden">
               <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-15">
-                <svg width="20px" height="20px" viewBox="0 0 10 10" color={getClassIcons({ class: vehicle.class }).color}>
-                  <use href={getClassIcons({ class: vehicle.class }).file} width="10" height="10" x="0" y="0"></use>
+                <svg width="20px" height="20px" viewBox="0 0 10 10" color={getClassIcons({ class: vehicle.vehicle_classes.id }).color}>
+                  <use href={getClassIcons({ class: vehicle.vehicle_classes.id }).file} width="10" height="10" x="0" y="0"></use>
                 </svg>
 
-                <div className="text-truncate">{getClassStrings({ class: vehicle.class })}</div>
+                <div className="text-truncate">{vehicle.vehicle_classes.name}</div>
               </div>
 
               <div className="game-unit_card-info_title text-muted fs-12 overflow-hidden">Main role</div>
@@ -120,25 +117,25 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                 </div>
               </div> */}
 
-          {(vehicle.status || vehicle.operator) ? (
+          {(vehicle.vehicle_statuses || vehicle.operators) ? (
             <>
               <div className="game-unit_card-info_line d-flex w-100 mw-100">
                 <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden">
                   <div className="game-unit_card-info_value game-unit_status d-flex align-items-center flex-grow-1 fs-15">
-                    <Image src={getStatusIcons({ status: vehicle.status })} height={15} />
+                    <Image src={getStatusIcons({ status: vehicle.vehicle_statuses.id })} height={15} />
 
-                    <div className="text-truncate">{getStatusStrings({ status: vehicle.status })}</div>
+                    <div className="text-truncate">{vehicle.vehicle_statuses.name} vehicle</div>
                   </div>
                   <div className="game-unit_card-info_title text-muted fs-12 overflow-hidden">Status</div>
                 </div>
 
-                {vehicle.operator && (
+                {vehicle.operators && (
                   <>
                     <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden">
                       <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-15">
-                        <Image src={`https://static.encyclopedia.warthunder.com/gui_skin/${getCountryIcons({ country: vehicle.country, operator: vehicle.operator })}.svg`} height={18} />
+                        <Image src={`https://static.encyclopedia.warthunder.com/gui_skin/${getCountryIcons({ country: vehicle.nations.name, operator: vehicle.operators.name })}.svg`} height={18} />
 
-                        <div className="text-truncate">{vehicle.operator}</div>
+                        <div className="text-truncate">{vehicle.operators.name}</div>
                       </div>
                       <div className="game-unit_card-info_title text-muted fs-12 overflow-hidden">Operator</div>
                     </div>

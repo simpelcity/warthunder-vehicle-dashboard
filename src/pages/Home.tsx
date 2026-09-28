@@ -6,14 +6,20 @@ import '@/styles/pages/Home.scss'
 import type { Vehicle } from '@/types/Vehicle'
 
 export default function HomePage() {
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [vehicles, setVehicles] = useState<any[]>([]);
 
   useEffect(() => {
     getVehicles();
   }, [])
 
   async function getVehicles() {
-    const { data, error } = await supabase.from('vehicles').select();
+    const { data, error } = await supabase.from('vehicles').select(`
+      id,
+      name,
+      rank,
+      battle_rating_rb,
+      nations (id, name)
+    `);
 
     if (error) {
       console.error(error);
@@ -22,6 +28,7 @@ export default function HomePage() {
 
     setVehicles(data);
   }
+
 
   return (
     <>

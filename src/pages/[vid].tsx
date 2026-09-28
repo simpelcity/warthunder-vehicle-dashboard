@@ -11,7 +11,7 @@ export default function VehicleDetailsPage() {
   const { id } = useParams<{ id: string }>();
 
   const [isMobile, setIsMobile] = useState(false);
-  const [vehicle, setVehicle] = useState<Vehicle>();
+  const [vehicle, setVehicle] = useState<any>();
   
   useEffect(() => {
     if (window.innerWidth <= 768) {
@@ -24,13 +24,20 @@ export default function VehicleDetailsPage() {
   }, [])
   
   async function getVehicle() {
-    const { data, error } = await supabase.from('vehicles').select().eq('vehicle_id', id);
-    console.log(data);
+    const { data, error } = await supabase.from('vehicles').select(`
+      *,
+      nations (*),
+      operators(*),
+      vehicle_types (*),
+      vehicle_statuses (*),
+      vehicle_classes (*)
+    `).eq('id', id);
     
     if (error) {
       console.error(error);
       return
     }
+    console.log(data[0]);
     
     setVehicle(data[0]);
   }
