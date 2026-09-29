@@ -40,15 +40,7 @@ export default function VehicleDetailsPage() {
         vehicle_classes (*),
 
         vehicle_weapons (
-          id,
-          type,
-          quantity,
-          slot,
-          ammo_quantity,
-          first_order_ammo,
-          reload_time_seconds,
-          belt_capacity,
-          fire_rate_rpm,
+          *,
 
           weapon:weapons (
             id,

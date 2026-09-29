@@ -39,7 +39,6 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
   });
 
   function BeltIcon({ belt }: any) {
-    console.log(belt)
     return (
       <div className="game-unit_b-icon_base position-absolute w-100 h-100 start-0 top-0 d-flex mw-100 align-items-center justify-content-center">
         {belt.map((bullet: any, index: any) => (
