@@ -1,1 +1,0 @@
-export type VehicleStatus = "techtree" | "premium" | "squadron" | "event";

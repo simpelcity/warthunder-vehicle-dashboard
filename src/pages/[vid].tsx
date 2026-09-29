@@ -24,16 +24,6 @@ export default function VehicleDetailsPage() {
   }, [])
   
   async function getVehicle() {
-    // const { data, error } = await supabase.from('vehicles').select(`
-    //   *,
-    //   nations (*),
-    //   operators(*),
-    //   vehicle_types (*),
-    //   vehicle_statuses (*),
-    //   vehicle_classes (*),
-    //   vehicle_weapons (*)
-    // `).eq('id', id);
-
     const { data, error } = await supabase
       .from("vehicles")
       .select(`

@@ -29,7 +29,12 @@ export default function HomePage() {
 
     console.log(data)
 
-    setVehicles(data);
+    const mapped = (data ?? []).map((vehicle) => ({
+      ...vehicle,
+      nations: Array.isArray(vehicle.nations) ? vehicle.nations[0] : vehicle.nations,
+    }));
+
+    setVehicles(mapped as Vehicle[]);
   }
 
 

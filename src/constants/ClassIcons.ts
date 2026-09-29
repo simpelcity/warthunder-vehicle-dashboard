@@ -1,4 +1,4 @@
-import type { VehicleClass } from '@/src/types/VehicleClasses'
+import type { VehicleClass } from '@/types/Vehicle'
 
 const classIconFile: Record<VehicleClass, string> = {
   light: "light_tank",

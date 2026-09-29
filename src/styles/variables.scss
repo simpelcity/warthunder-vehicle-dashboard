@@ -8,4 +8,13 @@ $body-color: #f5f5f5;
 $dark: #161617;
 $info: #6ea8fe;
 
-@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+$accordion-button-bg: #212529;
+$accordion-button-active-bg: #212529;
+$accordion-button-focus-box-shadow: none;
+
+$accordion-icon-color: #6ea8fe;
+$accordion-icon-active-color: #6ea8fe;
+$accordion-icon-color-dark: $accordion-icon-color;
+$accordion-icon-active-color-dark: $accordion-icon-active-color;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
