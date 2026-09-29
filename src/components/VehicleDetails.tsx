@@ -13,6 +13,7 @@ import { useState } from 'react'
 import { getBulletIconPath } from '@/constants/BeltBulletIcons'
 import { getTankShellVariantName, getShellGuidanceName } from '@/constants/TankShellVariantNames'
 import { getBulletVariantName } from '@/constants/TankBeltBulletVariants'
+import { getFeatureIcons } from '@/constants/FeatureIcons'
 
 type VehicleDetails = {
   vehicle: any
@@ -23,6 +24,7 @@ export type BeltBulletNames = "API-T" | "HEI-T" | "APDS" | "HEFI-T" | "HVAP-T" |
 export default function VehicleDetails({ vehicle }: VehicleDetails) {
   const [activeAmmoId, setActiveAmmoId] = useState<number | null>(null);
   const [activeBeltKey, setActiveBeltKey] = useState<string | null>(null);
+  const [activeFeatureId, setActiveFeatureId] = useState<string | null>(null);
 
   function ensureDecimal(num: number): string {
     return Number.isInteger(num) ? `${num}.0` : num.toString();
@@ -101,14 +103,51 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                 <div className="game-unit_chars-header">Caliber</div>
                 <div className="game-unit_chars-value">{ammo.caliber_mm} mm</div>
               </div>
+
               <div className="game-unit_chars-line">
                 <div className="game-unit_chars-header">Projectile Mass</div>
                 <div className="game-unit_chars-value">{ammo.projectile_mass_kg} kg</div>
               </div>
+
               <div className="game-unit_chars-line">
                 <div className="game-unit_chars-header">Muzzle Velocity</div>
                 <div className="game-unit_chars-value">{ammo.muzzle_velocity_ms} m/s</div>
               </div>
+
+              {ammo.fuze_delay_m && (
+                <div className="game-unit_chars-line">
+                  <div className="game-unit_chars-header">Fuze Delay</div>
+                  <div className="game-unit_chars-value">{ammo.fuze_delay_m} m</div>
+                </div>
+              )}
+
+              {ammo.fuze_sensitivity_mm && (
+                <div className="game-unit_chars-line">
+                  <div className="game-unit_chars-header">Fuze Sensitivity</div>
+                  <div className="game-unit_chars-value">{ammo.fuze_sensitivity_mm} mm</div>
+                </div>
+              )}
+
+              {ammo.explosive_type && (
+                <div className="game-unit_chars-line">
+                  <div className="game-unit_chars-header">Explosive Type</div>
+                  <div className="game-unit_chars-value">{ammo.explosive_type}</div>
+                </div>
+              )}
+
+              {ammo.explosive_mass_kg && (
+                <div className="game-unit_chars-line">
+                  <div className="game-unit_chars-header">Explosive Mass</div>
+                  <div className="game-unit_chars-value">{ammo.explosive_mass_kg} kg</div>
+                </div>
+              )}
+
+              {ammo.tnt_equivalent_kg && (
+                <div className="game-unit_chars-line">
+                  <div className="game-unit_chars-header">TNT equivalent</div>
+                  <div className="game-unit_chars-value">{ammo.tnt_equivalent_kg} kg</div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -152,8 +191,19 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
     </Popover>
   );
 
-  const FeaturePopover = (ammo: any) => (
-    <Popover id={`feature-popover-${ammo.id}`}></Popover>
+  const FeaturePopover = (feature: any) => (
+    <Popover id={`feature-popover-${feature.id}`} className="game-unit_popover">
+      <Popover.Body>
+        <div>
+          <div className="game-unit_popover-header d-flex align-items-center">
+            <div className="icon">{getFeatureIcons(feature.id)}</div>
+            <span className="fw-bold fs-6">{feature.name}</span>
+          </div>
+
+          <div className="game-unit_popover-content">{feature.description}</div>
+        </div>
+      </Popover.Body>
+    </Popover>
   );
 
   return (
@@ -187,6 +237,7 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                     <div className="mode text-gray fs-11">AB</div>
 
                     <div className="value fw-bold fs-17">{ensureDecimal(vehicle.battle_rating_ab)}</div>
+                    
                   </div>
 
                   <div className="game-unit_br-item flex-grow-1 text-center position-relative">
@@ -337,7 +388,33 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
 
                           {vehicle_weapon.type === "cannon" ? (
                             <>
-                              <div className="game-unit_features mt-1"></div>
+                              <div className="game-unit_features mt-1">
+                                {vehicle_weapon.features.map((feature: any) => (
+                                  <OverlayTrigger
+                                    trigger="click"
+                                    placement="auto"
+                                    show={activeFeatureId === feature.id}
+                                    rootClose
+                                    onToggle={(nextShow) => {
+                                      if (!nextShow && activeFeatureId === feature.id) {
+                                        setActiveFeatureId(null);
+                                      }
+                                    }}
+                                    overlay={FeaturePopover(feature)}
+                                  >
+                                    <Button
+                                      variant="transparent"
+                                      className="game-unit_feature"
+                                      onClick={() => setActiveFeatureId((current) => current === feature.id ? null : feature.id)}
+                                      aria-label={`Show details for ${feature.name}`}
+                                    >
+                                      <div className="icon">{getFeatureIcons(feature.id)}</div>
+
+                                      <span>{feature.name}</span>
+                                    </Button>
+                                  </OverlayTrigger>
+                                ))}
+                              </div>
 
                               <div className="game-unit_chars mt-2">
                                 <div className="game-unit_chars-block">
