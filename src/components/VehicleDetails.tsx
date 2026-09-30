@@ -1,33 +1,125 @@
-import { Card, Image, Button, OverlayTrigger, Tooltip, Accordion, Table, Popover } from 'react-bootstrap'
+import { Card, Image, Button, OverlayTrigger, Tooltip, Accordion, Table, Popover, Toast } from 'react-bootstrap'
 import { getCountryIcons } from '@/constants/CountryIcons'
 import { getRankStrings } from '@/constants/RankStrings'
 import { getClassIcons } from '@/constants/ClassIcons'
-import { FaRegHeart, FaScaleBalanced } from 'react-icons/fa6'
+import { FaRegHeart, FaHeart, FaScaleBalanced } from 'react-icons/fa6'
 import { getStatusIcons } from '@/constants/StatusIcons'
 import { BsQuestion } from "react-icons/bs";
 import { IoShareSocialOutline } from "react-icons/io5";
 import { TbDeviceDesktopShare } from "react-icons/tb";
 // import type { Vehicle } from '@/types/Vehicle'
 import { getTankShellDecorIcons, getTankShellIconPath } from '@/constants/TankShellIcons'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { getBulletIconPath } from '@/constants/BeltBulletIcons'
 import { getTankShellVariantName } from '@/constants/TankShellVariantNames'
 import { getBulletVariantName } from '@/constants/TankBeltBulletVariants'
 import { getFeatureIcons } from '@/constants/FeatureIcons'
+import { supabase } from '@/lib/supabaseClient'
 
 type VehicleDetails = {
   vehicle: any
+  session: any
+  error: any
 }
 
 export type BeltBulletNames = "API-T" | "HEI-T" | "APDS" | "HEFI-T" | "HVAP-T" | "APHE" | "FI-T" | "AP-T" | "HEF-T" | "HVAP" | "AP-I" | "AP" | "T";
 
-export default function VehicleDetails({ vehicle }: VehicleDetails) {
+export default function VehicleDetails({ vehicle, session, error }: VehicleDetails) {
   const [activeAmmoId, setActiveAmmoId] = useState<number | null>(null);
   const [activeBeltKey, setActiveBeltKey] = useState<string | null>(null);
   const [activeFeatureId, setActiveFeatureId] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState<number | null>(null);
+  const [isLiking, setIsLiking] = useState(false);
+  const [show, setShow] = useState(false);
+
+  console.log('vehicle:', vehicle, 'session:', session, 'error:', error)
+
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUserId(session?.user.id ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadLikes() {
+      const { data: count, error: countError } = await supabase.rpc(
+        'get_vehicle_like_count',
+        { p_vehicle_id: vehicle.id },
+      );
+
+      if (active && !countError) {
+        setLikeCount(Number(count ?? 0));
+      }
+
+      if (!userId) {
+        if (active) setIsLiked(false);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('vehicle_likes')
+        .select('vehicle_id')
+        .eq('user_id', userId)
+        .eq('vehicle_id', vehicle.id)
+        .maybeSingle();
+
+      if (active && !error) {
+        setIsLiked(Boolean(data));
+      }
+    }
+
+    void loadLikes();
+
+    return () => {
+      active = false;
+    };
+  }, [userId, vehicle.id]);
 
   function ensureDecimal(num: number): string {
     return Number.isInteger(num) ? `${num}.0` : num.toString();
+  }
+
+  function numberWithCommas(x: number) {
+    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  async function toggleLike() {
+    if (!userId) setShow(true)
+    if (likeCount === null || isLiking) return;
+
+    const wasLiked = isLiked;
+    const previousCount = likeCount;
+
+    setIsLiking(true);
+    setIsLiked(!wasLiked);
+    setLikeCount(previousCount + (wasLiked ? -1 : 1));
+
+    const result = wasLiked
+      ? await supabase
+        .from('vehicle_likes')
+        .delete()
+        .eq('user_id', userId)
+        .eq('vehicle_id', vehicle.id)
+      : await supabase.from('vehicle_likes').insert({
+        user_id: userId,
+        vehicle_id: vehicle.id,
+      });
+
+    if (result.error) {
+      setIsLiked(wasLiked);
+      setLikeCount(previousCount);
+      console.error('Could not update vehicle like:', result.error);
+    }
+
+    setIsLiking(false);
   }
 
   const sortedWeapons = [...(vehicle.vehicle_weapons ?? [])].sort((a, b) => {
@@ -62,10 +154,6 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
     }
     return Array.from(counts.entries());
   };
-
-  function numberWithCommas(x: number) {
-    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-  }
 
   const ToolTip = ({ children, title }: any) => (
     <OverlayTrigger overlay={<Tooltip>{title}</Tooltip>}>{children}</OverlayTrigger>
@@ -349,10 +437,21 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
           </div>
 
           <div className="game-unit_controls">
-            <ToolTip title="Like">
-              <Button variant="dark" className="game-unit_control game-unit_favorite-button d-flex align-items-center justify-content-center border-0">
-                <FaRegHeart className="fs-6" />
-                <span className="value game-unit_favorite-value">291</span>
+            <ToolTip title={isLiked ? 'Unlike' : 'Like'}>
+              <Button
+                variant="dark"
+                className={`game-unit_control game-unit_favorite-button d-flex align-items-center justify-content-center border-0${isLiked ? ' game-unit_favorite--favorite' : ''}`}
+                onClick={toggleLike}
+                disabled={likeCount === null || isLiking}
+                aria-pressed={isLiked}
+                aria-label={isLiked ? 'Unlike vehicle' : 'Like vehicle'}
+              >
+                {isLiked ? (
+                  <FaHeart className="fs-6" />
+                ) : (
+                  <FaRegHeart className="fs-6" />
+                )}
+                <span className="value game-unit_favorite-value">{likeCount ?? 0}</span>
               </Button>
             </ToolTip>
 
@@ -412,6 +511,7 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                                 <div className="game-unit_features mt-1">
                                   {vehicle_weapon.features.map((feature: any) => (
                                     <OverlayTrigger
+                                      key={feature.id}
                                       trigger="click"
                                       placement="auto"
                                       show={activeFeatureId === feature.id}
@@ -618,6 +718,13 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
           </div>
         </div>
       </div>
+
+      <Toast onClose={() => setShow(false)} show={show} delay={5000} autohide className="bg-dark">
+        <Toast.Header>
+          <span className="fw-bold me-auto">War Thunder Vehicle Dashboard</span>
+        </Toast.Header>
+        <Toast.Body className="fs-6">You need to be logged-in to be able to like vehicles.</Toast.Body>
+      </Toast>
     </>
   )
 }

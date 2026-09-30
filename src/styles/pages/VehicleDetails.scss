@@ -357,6 +357,17 @@
   line-height: 1.4;
 }
 
+.game-unit_favorite--favorite,
+.game-unit_favorite--favorite span {
+  color: red !important;
+}
+
+.toast {
+  position: fixed;
+  top: 10%;
+  right: 2%;
+}
+
 @media (max-width: 576px) {
   .game-unit_card {
     padding-top: 50%;
