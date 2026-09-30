@@ -2,18 +2,19 @@ import { Card, Image, Button, OverlayTrigger, Tooltip, Accordion, Table, Popover
 import { getCountryIcons } from '@/constants/CountryIcons'
 import { getRankStrings } from '@/constants/RankStrings'
 import { getClassIcons } from '@/constants/ClassIcons'
-import { FaRegHeart, FaHeart, FaScaleBalanced } from 'react-icons/fa6'
+import { FaRegHeart, FaScaleBalanced } from 'react-icons/fa6'
 import { getStatusIcons } from '@/constants/StatusIcons'
 import { BsQuestion } from "react-icons/bs";
 import { IoShareSocialOutline } from "react-icons/io5";
 import { TbDeviceDesktopShare } from "react-icons/tb";
-import type { Vehicle } from '@/types/Vehicle'
+// import type { Vehicle } from '@/types/Vehicle'
 import { getTankShellDecorIcons, getTankShellIconPath } from '@/constants/TankShellIcons'
 import { useState } from 'react'
 import { getBulletIconPath } from '@/constants/BeltBulletIcons'
-import { getTankShellVariantName, getShellGuidanceName } from '@/constants/TankShellVariantNames'
+import { getTankShellVariantName } from '@/constants/TankShellVariantNames'
 import { getBulletVariantName } from '@/constants/TankBeltBulletVariants'
 import { getFeatureIcons } from '@/constants/FeatureIcons'
+import { WebShare } from '@/components'
 
 type VehicleDetails = {
   vehicle: any
@@ -209,10 +210,11 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
   return (
     <>
       <div id="general">
+        <WebShare text="test" title="test title" />
         <Card className="game-unit_header overflow-hidden border-0 position-relative mb-3 text-light">
           <div className="game-unit_card position-relative">
             <div className="game-unit_template position-absolute w-100 h-100 start-0 top-0">
-              <Image className="game-unit_template-flag position-absolute start-0 h-50" src={`https://static.encyclopedia.warthunder.com/unit_tooltip/${getCountryIcons({ nation: vehicle.nations.id, operator: vehicle.operators.id })}.png`} />
+              <Image className="game-unit_template-flag position-absolute start-0 h-50" src={`https://static.encyclopedia.warthunder.com/unit_tooltip/${getCountryIcons({ nation: vehicle.nations.id, operator: vehicle?.operators?.id })}.png`} />
 
               <Image className="game-unit_template-image position-absolute start-0 bottom-0 h-100" src={`https://static.encyclopedia.warthunder.com/images/${vehicle.id.toLowerCase()}.png`} />
             </div>
@@ -280,28 +282,44 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                 <div className="game-unit_card-info_title text-muted fs-12 overflow-hidden">Main role</div>
               </div>
             </div>
+            
+            {(vehicle.status_id === "techtree" || vehicle.status_id === "squadron") && (
+              <div className="game-unit_card-info_line d-flex w-100 mw-100">
+                <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden">
+                  <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-15">
+                    <div>{vehicle.research !== null ? numberWithCommas(vehicle.research) : 'Free'}</div>
 
-            {/* <div className="game-unit_card-info_line d-flex w-100 mw-100">
-                  <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden">
-                    <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-15">
-                      <div>71,000</div>
-
-                      <img src="https://static.encyclopedia.warthunder.com/gui_skin/item_type_rp.svg" width="18px" alt="RP" title="Research Points" />
-                    </div>
-
-                    <div className="game-unit_card-info_title text-muted fs-12 overflow-hidden">Research</div>
+                    {vehicle.research !== null && (
+                      <div>
+                        {vehicle.status_id === "techtree" ? (
+                          <Image src="https://static.encyclopedia.warthunder.com/gui_skin/item_type_rp.svg" width="18px" alt="RP" title="Research Points" />
+                        ) : vehicle.status_id === "squadron" && (
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 100 100" fill="currentColor">
+                            <path className="cls-1" d="M50,94A44,44,0,1,1,94,50,44.019,44.019,0,0,1,50,94Zm0-4.552A39.473,39.473,0,0,0,89.449,50a47.076,47.076,0,0,0-.277-5.015H71.582L58.9,83.918,50.939,36.459l-8.91,35.7L31.949,44.113l-5.719,13.9H11.248C14.7,76.273,30.73,89.449,50,89.449Zm0-78.9A39.447,39.447,0,0,0,10.552,50c0,0.934.044,3.054,0.108,3.973H23.218L32.3,31.634l8.941,24.876,10.57-42.345L60.345,65,68.29,41H88.367A39.615,39.615,0,0,0,50,10.552Z"></path>
+                          </svg>
+                        )}
+                      </div>
+                    )}
                   </div>
 
-                  <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden">
-                    <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-15">
-                      <div>210,000</div>
+                  <div className="game-unit_card-info_title text-muted fs-12 overflow-hidden">Research</div>
+                </div>
 
-                      <img src="https://static.encyclopedia.warthunder.com/gui_skin/item_type_warpoints.svg" width="20px" alt="SL" title="Silver Lions" />
-                    </div>
+                <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden">
+                  <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-15">
+                    <div>{vehicle.purchase !== null ? numberWithCommas(vehicle.purchase) : 'Free'}</div>
 
-                    <div className="game-unit_card-info_title text-muted fs-12 overflow-hidden">Purchase</div>
+                    {vehicle.purchase !== null && (
+                      <div>
+                        <Image src="https://static.encyclopedia.warthunder.com/gui_skin/item_type_warpoints.svg" width="20px" alt="SL" title="Silver Lions" />
+                      </div>
+                    )}
                   </div>
-                </div> */}
+
+                  <div className="game-unit_card-info_title text-muted fs-12 overflow-hidden">Purchase</div>
+                </div>
+              </div>
+            )}
 
             {(vehicle.vehicle_statuses || vehicle.operators) ? (
               <>
@@ -341,7 +359,11 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
             </ToolTip>
 
             <ToolTip title="Share">
-              <Button variant="dark" id="game-unit_share" className="game-unit_control d-flex align-items-center justify-content-center border-0">
+              <Button
+                variant="dark"
+                id="game-unit_share"
+                className="game-unit_control d-flex align-items-center justify-content-center border-0"
+              >
                 <IoShareSocialOutline className="fs-6" />
               </Button>
             </ToolTip>
@@ -388,33 +410,35 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
 
                           {vehicle_weapon.type === "cannon" ? (
                             <>
-                              <div className="game-unit_features mt-1">
-                                {vehicle_weapon.features.map((feature: any) => (
-                                  <OverlayTrigger
-                                    trigger="click"
-                                    placement="auto"
-                                    show={activeFeatureId === feature.id}
-                                    rootClose
-                                    onToggle={(nextShow) => {
-                                      if (!nextShow && activeFeatureId === feature.id) {
-                                        setActiveFeatureId(null);
-                                      }
-                                    }}
-                                    overlay={FeaturePopover(feature)}
-                                  >
-                                    <Button
-                                      variant="transparent"
-                                      className="game-unit_feature"
-                                      onClick={() => setActiveFeatureId((current) => current === feature.id ? null : feature.id)}
-                                      aria-label={`Show details for ${feature.name}`}
+                              {vehicle_weapon.features && (
+                                <div className="game-unit_features mt-1">
+                                  {vehicle_weapon.features.map((feature: any) => (
+                                    <OverlayTrigger
+                                      trigger="click"
+                                      placement="auto"
+                                      show={activeFeatureId === feature.id}
+                                      rootClose
+                                      onToggle={(nextShow) => {
+                                        if (!nextShow && activeFeatureId === feature.id) {
+                                          setActiveFeatureId(null);
+                                        }
+                                      }}
+                                      overlay={FeaturePopover(feature)}
                                     >
-                                      <div className="icon">{getFeatureIcons(feature.id)}</div>
+                                      <Button
+                                        variant="transparent"
+                                        className="game-unit_feature"
+                                        onClick={() => setActiveFeatureId((current) => current === feature.id ? null : feature.id)}
+                                        aria-label={`Show details for ${feature.name}`}
+                                      >
+                                        <div className="icon">{getFeatureIcons(feature.id)}</div>
 
-                                      <span>{feature.name}</span>
-                                    </Button>
-                                  </OverlayTrigger>
-                                ))}
-                              </div>
+                                        <span>{feature.name}</span>
+                                      </Button>
+                                    </OverlayTrigger>
+                                  ))}
+                                </div>
+                              )}
 
                               <div className="game-unit_chars mt-2">
                                 <div className="game-unit_chars-block">

@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabaseClient'
 import { Container, Button } from 'react-bootstrap'
 import '@/styles/pages/VehicleDetails.scss'
 import { FaArrowLeftLong } from 'react-icons/fa6'
-import type { Vehicle } from '@/types/Vehicle'
+// import type { Vehicle } from '@/types/Vehicle'
 import { VehicleDetails } from '@/components'
 
 export default function VehicleDetailsPage() {
