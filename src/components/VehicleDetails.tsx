@@ -28,7 +28,6 @@ export default function VehicleDetails({ vehicle, session, error }: VehicleDetai
   const [activeAmmoId, setActiveAmmoId] = useState<number | null>(null);
   const [activeBeltKey, setActiveBeltKey] = useState<string | null>(null);
   const [activeFeatureId, setActiveFeatureId] = useState<string | null>(null);
-  // const [user, setUser] = useState<any>();
   const [userId, setUserId] = useState<string | null>(null);
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState<number | null>(null);
@@ -84,10 +83,6 @@ export default function VehicleDetails({ vehicle, session, error }: VehicleDetai
     };
   }, [userId, vehicle.id]);
 
-  // useEffect(() => {
-  //   getUser()
-  // }, []);
-
   function ensureDecimal(num: number): string {
     return Number.isInteger(num) ? `${num}.0` : num.toString();
   }
@@ -126,11 +121,6 @@ export default function VehicleDetails({ vehicle, session, error }: VehicleDetai
 
     setIsLiking(false);
   }
-
-  // async function getUser() {
-  //   const { data: { user } } = await supabase.auth.getUser();
-  //   setUser(user);
-  // }
 
   const sortedWeapons = [...(vehicle.vehicle_weapons ?? [])].sort((a, b) => {
     const caliberA = a.weapon?.caliber_mm;
@@ -729,7 +719,7 @@ export default function VehicleDetails({ vehicle, session, error }: VehicleDetai
         </div>
       </div>
 
-      <Toast onClose={() => setShow(false)} show={show} delay={5000} className="bg-dark">
+      <Toast onClose={() => setShow(false)} show={show} delay={5000} autohide className="bg-dark">
         <Toast.Header>
           <span className="fw-bold me-auto">War Thunder Vehicle Dashboard</span>
         </Toast.Header>

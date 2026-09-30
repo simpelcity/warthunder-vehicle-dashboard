@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { Container, Form, Button } from 'react-bootstrap'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { FaArrowLeftLong } from 'react-icons/fa6'
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -9,6 +10,16 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+      if (window.innerWidth <= 768) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    }, []);
 
   const from = location.state?.from;
   const returnTo =
@@ -40,6 +51,11 @@ export default function LoginPage() {
 
   return (
     <Container className="px-0 py-4 p-md-4">
+      <Button variant="primary" className={`border-0 rounded-1 px-3 fs-5 d-inline-flex column-gap-1 mb-3 fw-semibold${isMobile ? ' rounded-start-0' : ''}`} href="/">
+        <span className="d-flex align-items-center"><FaArrowLeftLong className="fs-5" /></span>
+        <p className="my-auto">Back to Home</p>
+      </Button>
+
       <Form method="post" onSubmit={handleLogin} className="">
         <Form.Group className="mb-3">
           <Form.Label>Email</Form.Label>

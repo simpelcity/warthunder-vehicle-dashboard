@@ -26,7 +26,7 @@ export default function VehicleDetailsPage() {
     }
 
     getVehicle();
-    getSession()
+    getSession();
   }, []);
 
   async function getSession() {
@@ -158,7 +158,7 @@ export default function VehicleDetailsPage() {
             <p className="my-auto">Back to Home</p>
           </Button>
 
-          <Button variant="transparent" onClick={session.session ? logout : login}>{session.session  ? 'Logout' : 'Login'}</Button>
+          <Button variant="transparent" className="border-0" onClick={session.session ? logout : login}>{session.session  ? 'Logout' : 'Login'}</Button>
         </div>
 
         <VehicleDetails vehicle={vehicle} session={session.session} error={error} />
