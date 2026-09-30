@@ -18,8 +18,6 @@ import { supabase } from '@/lib/supabaseClient'
 
 type VehicleDetails = {
   vehicle: any
-  session: any
-  error: any
 }
 
 export type BeltBulletNames = "API-T" | "HEI-T" | "APDS" | "HEFI-T" | "HVAP-T" | "APHE" | "FI-T" | "AP-T" | "HEF-T" | "HVAP" | "AP-I" | "AP" | "T";

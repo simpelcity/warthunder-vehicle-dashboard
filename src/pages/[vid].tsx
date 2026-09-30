@@ -42,6 +42,8 @@ export default function VehicleDetailsPage() {
     }
   }
 
+  if (error) console.error(error)
+
   async function logout() {
     await supabase.auth.signOut();
     setSession(null);
@@ -161,7 +163,7 @@ export default function VehicleDetailsPage() {
           <Button variant="transparent" className="border-0" onClick={session.session ? logout : login}>{session.session  ? 'Logout' : 'Login'}</Button>
         </div>
 
-        <VehicleDetails vehicle={vehicle} session={session.session} error={error} />
+        <VehicleDetails vehicle={vehicle} />
       </Container>
     </>
   )
