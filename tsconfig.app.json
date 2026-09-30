@@ -9,6 +9,7 @@
     "skipLibCheck": true,
     "paths": {
       "@/src/*": ["./src/*"],
+      "@/assets/*": ["./src/assets/*"],
       "@/types/*": ["./src/types/*"],
       "@/styles/*": ["./src/styles/*"],
       "@/pages/*": ["./src/pages/*"],

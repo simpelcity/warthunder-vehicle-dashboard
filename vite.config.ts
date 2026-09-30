@@ -12,6 +12,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@/src": resolve(__dirname, "src"),
+      "@/assets": resolve(__dirname, "src/assets"),
       "@/types": resolve(__dirname, "src/types"),
       "@/styles": resolve(__dirname, "src/styles"),
       "@/pages": resolve(__dirname, "src/pages"),
