@@ -6,12 +6,17 @@ import '@/styles/pages/VehicleDetails.scss'
 import { FaArrowLeftLong } from 'react-icons/fa6'
 // import type { Vehicle } from '@/types/Vehicle'
 import { VehicleDetails } from '@/components'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 export default function VehicleDetailsPage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [isMobile, setIsMobile] = useState(false);
   const [vehicle, setVehicle] = useState<any>();
+  const [session, setSession] = useState<any>();
+  const [error, setError] = useState<any>();
   
   useEffect(() => {
     if (window.innerWidth <= 768) {
@@ -21,7 +26,31 @@ export default function VehicleDetailsPage() {
     }
 
     getVehicle();
-  }, [])
+    getSession()
+  }, []);
+
+  async function getSession() {
+    try {
+      const { data, error } = await supabase.auth.getSession();
+
+      if (error) setError(error);
+
+      setSession(data);
+    } catch (err: any) {
+      console.error(err);
+      setError(err?.message ?? 'something went wrong');
+    }
+  }
+
+  async function logout() {
+    await supabase.auth.signOut();
+    setSession(null);
+  }
+
+  function login() {
+    const from = `${location.pathname}${location.search}${location.hash}`;
+    navigate('/login', { state: { from } });
+  }
   
   async function getVehicle() {
     const { data, error } = await supabase
@@ -113,7 +142,6 @@ export default function VehicleDetailsPage() {
       console.error(error);
       return
     }
-    console.log(data);
     
     setVehicle(data);
   }
@@ -124,12 +152,16 @@ export default function VehicleDetailsPage() {
   return (
     <>
       <Container className="px-0 py-4 p-md-4">
-        <Button variant="primary" className={`border-0 rounded-1 px-3 fs-5 d-inline-flex column-gap-1 mb-3 fw-semibold${isMobile ? ' rounded-start-0' : ''}`} href="/">
-          <span className="d-flex align-items-center"><FaArrowLeftLong className="fs-5" /></span>
-          <p className="my-auto">Back to Home</p>
-        </Button>
+        <div className="mb-3 d-flex justify-content-between">
+          <Button variant="primary" className={`border-0 rounded-1 px-3 fs-5 d-inline-flex column-gap-1 fw-semibold${isMobile ? ' rounded-start-0' : ''}`} href="/">
+            <span className="d-flex align-items-center"><FaArrowLeftLong className="fs-5" /></span>
+            <p className="my-auto">Back to Home</p>
+          </Button>
 
-        <VehicleDetails vehicle={vehicle} />
+          <Button variant="transparent" onClick={session.session ? logout : login}>{session.session  ? 'Logout' : 'Login'}</Button>
+        </div>
+
+        <VehicleDetails vehicle={vehicle} session={session.session} error={error} />
       </Container>
     </>
   )
