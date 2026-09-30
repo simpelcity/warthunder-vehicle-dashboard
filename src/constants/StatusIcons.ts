@@ -1,16 +1,14 @@
 import type { VehicleStatus } from '@/types/Vehicle'
-import itemTypeRp from '@/assets/status/item_type_rp.svg'
-import itemTypeTalisman from '@/assets/status/item_type_talisman.svg'
-import squadLeader from '@/assets/status/squad_leader.avif'
-import eventAvailableMarker from '@/assets/status/event_available_marker.svg'
 
-const statusIcon: Record<VehicleStatus, string> = {
-  techtree: itemTypeRp,
-  premium: itemTypeTalisman,
-  squadron: squadLeader,
-  event: eventAvailableMarker
+const statusIconFile: Record<VehicleStatus, string> = {
+  techtree: "item_type_rp",
+  premium: "item_type_talisman",
+  squadron: "squad_leader",
+  event: "event_available_marker"
 }
 
 export function getStatusIcons(status: VehicleStatus) {
-  return statusIcon[status];
+  const filename = statusIconFile[status];
+  if (status === "squadron") return `/assets/status/${filename}.avif`
+  return `/assets/status/${filename}.svg`;
 }
