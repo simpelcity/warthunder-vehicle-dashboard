@@ -283,3 +283,31 @@ create table public.vehicle_belts (
 
     created_at timestamptz not null default now()
 );
+
+
+-- ============================================================
+-- LIKED VEHICLES
+--
+-- Saves liked vehicles of users.
+-- ============================================================
+
+create table public.vehicle_likes (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  vehicle_id text not null references public.vehicles(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (user_id, vehicle_id)
+);
+
+alter table public.vehicle_likes enable row level security;
+
+create policy "Users can read their own likes"
+on public.vehicle_likes for select to authenticated
+using (user_id = (select auth.uid()));
+
+create policy "Users can like vehicles"
+on public.vehicle_likes for insert to authenticated
+with check (user_id = (select auth.uid()));
+
+create policy "Users can unlike vehicles"
+on public.vehicle_likes for delete to authenticated
+using (user_id = (select auth.uid()));
