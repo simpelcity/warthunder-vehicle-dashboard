@@ -34,8 +34,6 @@ export default function VehicleDetails({ vehicle, session, error }: VehicleDetai
   const [isLiking, setIsLiking] = useState(false);
   const [show, setShow] = useState(false);
 
-  console.log('vehicle:', vehicle, 'session:', session, 'error:', error)
-
   useEffect(() => {
     const {
       data: { subscription },
@@ -47,6 +45,7 @@ export default function VehicleDetails({ vehicle, session, error }: VehicleDetai
   }, []);
 
   useEffect(() => {
+    console.log(vehicle)
     let active = true;
 
     async function loadLikes() {
