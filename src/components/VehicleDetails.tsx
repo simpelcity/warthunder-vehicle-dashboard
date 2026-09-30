@@ -14,7 +14,6 @@ import { getBulletIconPath } from '@/constants/BeltBulletIcons'
 import { getTankShellVariantName } from '@/constants/TankShellVariantNames'
 import { getBulletVariantName } from '@/constants/TankBeltBulletVariants'
 import { getFeatureIcons } from '@/constants/FeatureIcons'
-import { WebShare } from '@/components'
 
 type VehicleDetails = {
   vehicle: any
@@ -210,7 +209,6 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
   return (
     <>
       <div id="general">
-        <WebShare text="test" title="test title" />
         <Card className="game-unit_header overflow-hidden border-0 position-relative mb-3 text-light">
           <div className="game-unit_card position-relative">
             <div className="game-unit_template position-absolute w-100 h-100 start-0 top-0">
