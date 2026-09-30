@@ -24,7 +24,7 @@ type VehicleDetails = {
 
 export type BeltBulletNames = "API-T" | "HEI-T" | "APDS" | "HEFI-T" | "HVAP-T" | "APHE" | "FI-T" | "AP-T" | "HEF-T" | "HVAP" | "AP-I" | "AP" | "T";
 
-export default function VehicleDetails({ vehicle, session, error }: VehicleDetails) {
+export default function VehicleDetails({ vehicle }: VehicleDetails) {
   const [activeAmmoId, setActiveAmmoId] = useState<number | null>(null);
   const [activeBeltKey, setActiveBeltKey] = useState<string | null>(null);
   const [activeFeatureId, setActiveFeatureId] = useState<string | null>(null);
