@@ -148,11 +148,16 @@ export default function VehicleDetailsPage() {
     setVehicle(data);
   }
   
-  if (!vehicle) return
+  if (!vehicle) return null
   document.title = `${vehicle.name} - War Thunder Vehicle Dashboard`
+
+  // console.log(window)
 
   return (
     <>
+      <meta name="og:image" content={`https://wiki.warthunder.com/assets/gunit_social/${vehicle.id}.jpg`} />
+      <meta name="twitter:image" content={`https://wiki.warthunder.com/assets/gunit_social/${vehicle.id}.jpg`} />
+
       <Container className="px-0 py-4 p-md-4 d-flex flex-column align-items-center">
         <div className="mb-3 d-flex justify-content-between w-100">
           <Button variant="primary" className={`border-0 rounded-1 px-3 fs-5 d-inline-flex column-gap-1 fw-semibold${isMobile ? ' rounded-start-0' : ''}`} href="/">

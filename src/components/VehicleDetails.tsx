@@ -5,7 +5,6 @@ import { getClassIcons } from '@/constants/ClassIcons'
 import { FaRegHeart, FaHeart, FaScaleBalanced } from 'react-icons/fa6'
 import { getStatusIcons } from '@/constants/StatusIcons'
 import { BsQuestion } from "react-icons/bs";
-import { IoShareSocialOutline } from "react-icons/io5";
 import { TbDeviceDesktopShare } from "react-icons/tb";
 // import type { Vehicle } from '@/types/Vehicle'
 import { getTankShellDecorIcons, getTankShellIconPath } from '@/constants/TankShellIcons'
@@ -15,6 +14,7 @@ import { getTankShellVariantName } from '@/constants/TankShellVariantNames'
 import { getBulletVariantName } from '@/constants/TankBeltBulletVariants'
 import { getFeatureIcons } from '@/constants/FeatureIcons'
 import { supabase } from '@/lib/supabaseClient'
+import WebShare from '@/components/WebShare'
 
 type VehicleDetails = {
   vehicle: any
@@ -454,13 +454,9 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
               </ToolTip>
 
               <ToolTip title="Share">
-                <Button
-                  variant="dark"
-                  id="game-unit_share"
-                  className="game-unit_control d-flex align-items-center justify-content-center border-0"
-                >
-                  <IoShareSocialOutline className="fs-6" />
-                </Button>
+                {navigator.share !== null && (
+                  <WebShare />
+                )}
               </ToolTip>
 
               <div className="game-unit_compare-wrapper">

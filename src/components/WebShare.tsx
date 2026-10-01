@@ -1,26 +1,33 @@
-const WebShare = ({ text, title }: { text: string, title: string }) => {
+import { Button } from 'react-bootstrap'
+import { IoShareSocialOutline } from "react-icons/io5";
+
+const WebShare = () => {
   const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: title,
-          text: text,
-          url: window.location.href
-        });
-      } catch (error) {
-        console.log('Error sharing:', error);
-      }
-    } else {
-      // Fallback: Copy to clipboard
-      await navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard!');
+    try {
+      await navigator.share({
+        title: document.title,
+        url: window.location.href
+      });
+    } catch (error) {
+      console.log('Error sharing:', error);
     }
+    // if (navigator.share) {
+    // } else {
+    //   // Fallback: Copy to clipboard
+    //   await navigator.clipboard.writeText(window.location.href);
+    //   alert('Link copied to clipboard!');
+    // }
   };
 
   return (
-    <button onClick={handleShare}>
-      Share
-    </button>
+    <Button
+      variant="dark"
+      id="game-unit_share"
+      className="game-unit_control d-flex align-items-center justify-content-center border-0"
+      onClick={handleShare}
+    >
+      <IoShareSocialOutline className="fs-6" />
+    </Button>
   );
 };
 
