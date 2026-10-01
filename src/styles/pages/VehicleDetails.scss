@@ -1,12 +1,16 @@
 @use '../variables' as *;
 
+.game-unit {
+  max-width: 960px;
+}
+
 .game-unit_header {
   background-color: #004060 !important;
   box-sizing: border-box;
 }
 
 .game-unit_card {
-  padding-top: 30.77%;
+  padding-top: 35%;
 }
 
 .game-unit_template-flag {
@@ -150,6 +154,7 @@
 .block {
   width: 100%;
   background-color: #232324 !important;
+  border-radius: 6px;
 }
 
 .block-header {
@@ -176,6 +181,10 @@
 
 .game-unit_weapon:first-child {
   margin-top: .5em;
+}
+
+.game-unit_weapon:last-child {
+  margin-bottom: 0 !important;
 }
 
 .game-unit_weapon-title {
@@ -209,7 +218,7 @@
 }
 
 .game-unit_chars-header {
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   align-self: flex-start;
   text-align: left;
 }

@@ -153,8 +153,8 @@ export default function VehicleDetailsPage() {
 
   return (
     <>
-      <Container className="px-0 py-4 p-md-4">
-        <div className="mb-3 d-flex justify-content-between">
+      <Container className="px-0 py-4 p-md-4 d-flex flex-column align-items-center">
+        <div className="mb-3 d-flex justify-content-between w-100">
           <Button variant="primary" className={`border-0 rounded-1 px-3 fs-5 d-inline-flex column-gap-1 fw-semibold${isMobile ? ' rounded-start-0' : ''}`} href="/">
             <span className="d-flex align-items-center"><FaArrowLeftLong className="fs-5" /></span>
             <p className="my-auto">Back to Home</p>
