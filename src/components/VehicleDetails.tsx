@@ -172,7 +172,11 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
       </Popover.Header>
 
       <Popover.Body className="px-3 pb-2 pt-1 fs-6">
-        <div className="text-muted">{getTankShellVariantName(ammo.ammunition.variant)}</div>
+        <div className="mb-1 shell-variant">
+          <span className="text-muted small">{ammo.ammunition.variant}</span>
+          <span className="text-muted small"> - </span>
+          <span className="text-muted small">{getTankShellVariantName(ammo.ammunition.variant)}</span>
+        </div>
         
         <ul className="list-unstyled shells-performance-list mb-0">
           <li className="d-flex align-items-center justify-content-between flex-wrap pb-1 mb-1 border-bottom column-gap-2">
@@ -236,36 +240,32 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
 
   const BeltPopover = (belt: any) => (
     <Popover id={`belt-popover-${belt.belt_id}`} className="game-unit_popover">
-      <Popover.Body>
-        <div className="game-unit_popover-header d-flex align-items-center">
-          <div className="icon">
-            <div className="game-unit_b-icon position-relative overflow-hidden">
-              <BeltIcon belt={belt.belt.belt_ammunition} />
-            </div>
-          </div>
-          <span className="fw-bold fs-6">{belt.belt.name}</span>
+      <Popover.Header className="game-unit_popover-header d-inline-flex w-100 align-items-center border-0 px-3 pb-0 column-gap-2">
+        <div className="game-unit_b-icon position-relative overflow-hidden">
+          <BeltIcon belt={belt.belt.belt_ammunition} />
         </div>
 
-        <div className="game-unit_popover-content">
-          <div style={{ fontSize: '.9em' }}>
-            <div className="d-flex flex-column px-2 py-1 mb-2 border rounded-1 column-gap-2">
-              <span className="text-muted">Armor penetration (max.)</span>
-              <span className="fw-bold">{belt.belt.max_penetration_mm} mm</span>
-            </div>
+        <span className="fw-bold fs-5">{belt.belt.name}</span>
+      </Popover.Header>
 
-            <div>
-              <span>Belt filling: {belt.belt.belt_filling}</span>
-              <ul className="ps-3 m-0">
-                {getBulletComposition(belt.belt.belt_ammunition).map(([bullet]) => (
-                  <li key={bullet}>
-                    <span className="">{bullet}: </span>
-                    <span className="">{getBulletVariantName(bullet)} bullet</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+      <Popover.Body className="px-3 pb-2 pt-1 fs-6">
+        <div className="d-flex flex-column pb-1 mb-1 border-bottom column-gap-2">
+          <span className="text-muted">Armor penetration (max.)</span>
+          <span className="fw-bold">{belt.belt.max_penetration_mm} mm</span>
         </div>
+
+        <div className="mb-2">
+          <span>Belt filling: {belt.belt.belt_filling}</span>
+        </div>
+
+        <ul className="belts-performance-list ps-3 m-0">
+          {getBulletComposition(belt.belt.belt_ammunition).map(([bullet]) => (
+            <li key={bullet}>
+              <span className="fw-bold">{bullet}: </span>
+              <span className="text-muted">{getBulletVariantName(bullet)} bullet</span>
+            </li>
+          ))}
+        </ul>
       </Popover.Body>
     </Popover>
   );
@@ -274,7 +274,7 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
     <Popover id={`feature-popover-${feature.id}`} className="game-unit_popover">
       <Popover.Body>
         <div>
-          <div className="game-unit_popover-header d-flex align-items-center">
+          <div className="game-unit_popover-header d-flex align-items-center gap-2 mb-2">
             <div className="icon">{getFeatureIcons(feature.id)}</div>
             <span className="fw-bold fs-6">{feature.name}</span>
           </div>
@@ -478,10 +478,10 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
         <div className="game-unit_content d-flex">
           <div className="game-unit_data position-relative">
             <div id="specification">
-              {vehicle.vehicle_weapons && (
+              {vehicle.vehicle_weapons.length !== 0 && (
                 <>
-                  <Card id="weapon" className="block mb-3 border-0 bg-dark-lighter w-100">
-                    <Card.Header className="block-header bg-dark-lighter fs-6">Armaments</Card.Header>
+                  <Card id="weapon" className="block mb-3 border-0 bg-dark-subtle w-100">
+                    <Card.Header className="block-header bg-dark-subtle fs-6">Armaments</Card.Header>
 
                     <Card.Body className="block-content pt-2">
                       <div className="tab-content">
@@ -590,7 +590,7 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                                   <Accordion.Item eventKey="0">
                                     <Accordion.Header>{vehicle_weapon.type === "cannon" ? "Available ammunition" : "Available belts"}</Accordion.Header>
                                     <Accordion.Body className="p-0">
-                                      <Table className="game-unit_belt-list w-100 text-center m-0">
+                                      <Table className="game-unit_belt-list w-100 text-center m-0 fs-6">
                                         <thead>
                                           <tr>
                                             {vehicle_weapon.type === "cannon" ? (
