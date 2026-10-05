@@ -1,12 +1,13 @@
 $primary: #BE3531;
 $primary-hover: #e53935;
 
+$info: #6ea8fe;
+
 $light: #f5f5f5;
 
-$body-bg: #161617;
+$body-bg: #232324;
 $body-color: #f5f5f5;
 $dark: #161617;
-$info: #6ea8fe;
 
 $accordion-button-bg: #212529;
 $accordion-button-active-bg: #212529;
@@ -16,5 +17,8 @@ $accordion-icon-color: #6ea8fe;
 $accordion-icon-active-color: #6ea8fe;
 $accordion-icon-color-dark: $accordion-icon-color;
 $accordion-icon-active-color-dark: $accordion-icon-active-color;
+
+$popover-bg: $dark;
+$popover-header-bg: $dark;
 
 @import "../../node_modules/bootstrap/scss/bootstrap";

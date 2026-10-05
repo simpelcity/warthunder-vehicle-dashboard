@@ -6,10 +6,6 @@
   src: url("/assets/fonts/symbols_skyquake.bfc9728c6a6bc73f209a.ttf");
 }
 
-:root {
-  --bs-dark-bg-subtle: #1b1b1bcc;
-}
-
 .font-wt {
   font-family: "WTSymbols", "Nunito" !important;
 }
@@ -49,22 +45,10 @@ html {
   scroll-behavior: smooth;
 }
 
-.fs-17 {
-  font-size: 17px !important;
+.bg-dark-lighter {
+  background-color: #232324 !important;
 }
 
-.fs-15 {
-  font-size: 15px !important;
-}
-
-.fs-12 {
-  font-size: 12px !important;
-}
-
-.fs-11 {
-  font-size: 11px !important;
-}
-
-.text-muted {
-  color: #a4a4a4 !important;
+.border-secondary {
+  border-color: #404040 !important;
 }

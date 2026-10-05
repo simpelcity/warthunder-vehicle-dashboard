@@ -1,4 +1,4 @@
-import type { TankShellVariant, Guidance } from "@/types/TankShells";
+import type { TankShellVariant, ATGMGuidance } from "@/types/Ammunition";
 
 export const tankShellVariantNames = {
   AP: "Armor-Piercing",
@@ -46,13 +46,13 @@ export function getTankShellVariantName(variant: TankShellVariant) {
   else return `${tankShellVariantNames[variant]} shell`
 }
 
-export const shellGuidanceNames: Record<Guidance, string> = {
+export const shellGuidanceNames: Record<ATGMGuidance, string> = {
   "Semi-Automatic (SACLOS)": "Semi-Automatic-Command-to-Line-Of-Sight",
   "Manual (MCLOS)": "Manual-Command-to-Line-Of-Sight",
   "Beam riding": "Beam riding",
   "IR": "Infrared"
 }
 
-export function getShellGuidanceName(guidance: Guidance) {
+export function getShellGuidanceName(guidance: ATGMGuidance) {
   return `${shellGuidanceNames[guidance]}`
 }

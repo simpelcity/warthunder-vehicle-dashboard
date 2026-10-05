@@ -27,8 +27,6 @@ export default function HomePage() {
       return
     }
 
-    console.log(data)
-
     const mapped = (data ?? []).map((vehicle) => ({
       ...vehicle,
       nations: Array.isArray(vehicle.nations) ? vehicle.nations[0] : vehicle.nations,

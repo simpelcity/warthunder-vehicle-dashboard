@@ -4,7 +4,6 @@ import { supabase } from '@/lib/supabaseClient'
 import { Container, Button } from 'react-bootstrap'
 import '@/styles/pages/VehicleDetails.scss'
 import { FaArrowLeftLong } from 'react-icons/fa6'
-// import type { Vehicle } from '@/types/Vehicle'
 import { VehicleDetails } from '@/components'
 import { useNavigate, useLocation } from 'react-router-dom'
 
@@ -71,7 +70,18 @@ export default function VehicleDetailsPage() {
         vehicle_classes (*),
 
         vehicle_weapons (
-          *,
+          id,
+          vehicle_id,
+          weapon_id,
+          type,
+          quantity,
+          slot,
+          ammo_quantity,
+          first_order_ammo,
+          reload_time_seconds,
+          belt_capacity,
+          fire_rate_rpm,
+          features,
 
           weapon:weapons (
             id,
@@ -148,13 +158,19 @@ export default function VehicleDetailsPage() {
     setVehicle(data);
   }
   
-  if (!vehicle) return
+  if (!vehicle) return null
   document.title = `${vehicle.name} - War Thunder Vehicle Dashboard`
 
   return (
     <>
-      <Container className="px-0 py-4 p-md-4">
-        <div className="mb-3 d-flex justify-content-between">
+      <meta name="og:image" content={`https://wiki.warthunder.com/assets/gunit_social/${vehicle.id}.jpg`} />
+      <meta name="og:image:width" content="1200" />
+      <meta name="og:image:height" content="630" />
+      <meta name="twitter:image" content={`https://wiki.warthunder.com/assets/gunit_social/${vehicle.id}.jpg`} />
+      <meta name="vk:image" content={`https://wiki.warthunder.com/assets/gunit_social/${vehicle.id}.jpg`} />
+
+      <Container className="px-0 py-4 p-md-4 d-flex flex-column align-items-center">
+        <div className="mb-3 d-flex justify-content-between w-100">
           <Button variant="primary" className={`border-0 rounded-1 px-3 fs-5 d-inline-flex column-gap-1 fw-semibold${isMobile ? ' rounded-start-0' : ''}`} href="/">
             <span className="d-flex align-items-center"><FaArrowLeftLong className="fs-5" /></span>
             <p className="my-auto">Back to Home</p>
