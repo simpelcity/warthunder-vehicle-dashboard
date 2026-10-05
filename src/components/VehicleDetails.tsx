@@ -4,7 +4,6 @@ import { getRankStrings } from '@/constants/RankStrings'
 import { getClassIcons } from '@/constants/ClassIcons'
 import { FaRegHeart, FaHeart, FaScaleBalanced } from 'react-icons/fa6'
 import { getStatusIcons } from '@/constants/StatusIcons'
-import { BsQuestion } from "react-icons/bs";
 import { TbDeviceDesktopShare } from "react-icons/tb";
 import { getTankShellDecorIcons, getTankShellIconPath } from '@/constants/TankShellIcons'
 import { useState, useEffect } from 'react'
