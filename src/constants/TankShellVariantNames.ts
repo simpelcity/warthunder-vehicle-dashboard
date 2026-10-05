@@ -1,4 +1,4 @@
-import type { TankShellVariant, Guidance } from "@/types/TankShells";
+import type { TankShellVariant, Guidance } from "@/src/types/Ammunition";
 
 export const tankShellVariantNames = {
   AP: "Armor-Piercing",

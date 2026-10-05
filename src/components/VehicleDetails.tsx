@@ -6,7 +6,6 @@ import { FaRegHeart, FaHeart, FaScaleBalanced } from 'react-icons/fa6'
 import { getStatusIcons } from '@/constants/StatusIcons'
 import { BsQuestion } from "react-icons/bs";
 import { TbDeviceDesktopShare } from "react-icons/tb";
-// import type { Vehicle } from '@/types/Vehicle'
 import { getTankShellDecorIcons, getTankShellIconPath } from '@/constants/TankShellIcons'
 import { useState, useEffect } from 'react'
 import { getBulletIconPath } from '@/constants/BeltBulletIcons'
@@ -15,12 +14,11 @@ import { getBulletVariantName } from '@/constants/TankBeltBulletVariants'
 import { getFeatureIcons } from '@/constants/FeatureIcons'
 import { supabase } from '@/lib/supabaseClient'
 import WebShare from '@/components/WebShare'
+import type { BeltBulletNames } from '@/types/Ammunition'
 
 type VehicleDetails = {
   vehicle: any
 }
-
-export type BeltBulletNames = "API-T" | "HEI-T" | "APDS" | "HEFI-T" | "HVAP-T" | "APHE" | "FI-T" | "AP-T" | "HEF-T" | "HVAP" | "AP-I" | "AP" | "T";
 
 export default function VehicleDetails({ vehicle }: VehicleDetails) {
   const [activeAmmoId, setActiveAmmoId] = useState<number | null>(null);
@@ -158,84 +156,81 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
 
   const ShellPopover = (ammo: any) => (
     <Popover id={`shell-popover-${ammo.id}`} className="game-unit_popover">
-      <Popover.Body>
-        <div className="game-unit_popover-header d-flex align-items-center">
-          <div className="icon">
-            <div className="game-unit_b-icon position-relative overflow-hidden">
-              <div className="game-unit_b-icon_decor position-absolute w-100 h-100 start-0 top-0">
-                <Image src={getTankShellDecorIcons(ammo).damage} alt="" className="position-absolute w-100 start-0 top-0" />
-                <Image src={getTankShellDecorIcons(ammo).armor} alt="" className="position-absolute w-100 start-0 top-0" />
-              </div>
-              <div className="game-unit_b-icon_base position-absolute w-100 h-100 start-0 top-0 d-flex mw-100 align-items-center justify-content-center">
-                <Image src={getTankShellIconPath(ammo)} alt="" className="h-100 flex-grow-0 flex-shrink-1" />
-              </div>
-            </div>
+      <Popover.Header className="game-unit_popover-header d-inline-flex w-100 align-items-center border-0 px-3 pb-0 column-gap-2">
+        <div className="game-unit_b-icon position-relative overflow-hidden">
+          <div className="game-unit_b-icon_decor position-absolute w-100 h-100 start-0 top-0">
+            <Image src={getTankShellDecorIcons(ammo).damage} alt="Damage" className="position-absolute w-100 start-0 top-0" />
+
+            <Image src={getTankShellDecorIcons(ammo).armor} alt="Armor" className="position-absolute w-100 start-0 top-0" />
           </div>
-          <span className="fw-bold fs-6">{ammo.ammunition.designation}</span>
-        </div>
 
-        <div className="game-unit_popover-content">
-          <div style={{ fontSize: '.9rem' }}>
-            <div className="mb-1">{getTankShellVariantName(ammo.ammunition.variant)}</div>
-
-            <div className="d-flex flex-column px-2 py-1 mb-2 border rounded-1 column-gap-2">
-              <span className="text-muted">Armor penetration (max.)</span>
-              <span className="fw-bold">{ammo.penetration_mm} mm</span>
-            </div>
-
-            <div>
-              <div className="game-unit_chars-line">
-                <div className="game-unit_chars-header">Caliber</div>
-                <div className="game-unit_chars-value">{ammo.caliber_mm} mm</div>
-              </div>
-
-              <div className="game-unit_chars-line">
-                <div className="game-unit_chars-header">Projectile Mass</div>
-                <div className="game-unit_chars-value">{ammo.projectile_mass_kg} kg</div>
-              </div>
-
-              <div className="game-unit_chars-line">
-                <div className="game-unit_chars-header">Muzzle Velocity</div>
-                <div className="game-unit_chars-value">{ammo.muzzle_velocity_ms} m/s</div>
-              </div>
-
-              {ammo.fuze_delay_m && (
-                <div className="game-unit_chars-line">
-                  <div className="game-unit_chars-header">Fuze Delay</div>
-                  <div className="game-unit_chars-value">{ammo.fuze_delay_m} m</div>
-                </div>
-              )}
-
-              {ammo.fuze_sensitivity_mm && (
-                <div className="game-unit_chars-line">
-                  <div className="game-unit_chars-header">Fuze Sensitivity</div>
-                  <div className="game-unit_chars-value">{ammo.fuze_sensitivity_mm} mm</div>
-                </div>
-              )}
-
-              {ammo.explosive_type && (
-                <div className="game-unit_chars-line">
-                  <div className="game-unit_chars-header">Explosive Type</div>
-                  <div className="game-unit_chars-value">{ammo.explosive_type}</div>
-                </div>
-              )}
-
-              {ammo.explosive_mass_kg && (
-                <div className="game-unit_chars-line">
-                  <div className="game-unit_chars-header">Explosive Mass</div>
-                  <div className="game-unit_chars-value">{ammo.explosive_mass_kg} kg</div>
-                </div>
-              )}
-
-              {ammo.tnt_equivalent_kg && (
-                <div className="game-unit_chars-line">
-                  <div className="game-unit_chars-header">TNT equivalent</div>
-                  <div className="game-unit_chars-value">{ammo.tnt_equivalent_kg} kg</div>
-                </div>
-              )}
-            </div>
+          <div className="game-unit_b-icon_base position-absolute w-100 h-100 start-0 top-0 d-flex mw-100 align-items-center justify-content-center">
+            <Image src={getTankShellIconPath(ammo)} alt={`${ammo.ammunition.variant} shell icon`} className="h-100 flex-grow-0 flex-shrink-1" />
           </div>
         </div>
+
+        <span className="fw-bold fs-5">{ammo.ammunition.designation}</span>
+      </Popover.Header>
+
+      <Popover.Body className="px-3 pb-2 pt-1 fs-6">
+        <div className="text-muted">{getTankShellVariantName(ammo.ammunition.variant)}</div>
+        
+        <ul className="list-unstyled shells-performance-list mb-0">
+          <li className="d-flex align-items-center justify-content-between flex-wrap pb-1 mb-1 border-bottom column-gap-2">
+            <span className="text-muted">Armor penetration (max.)</span>
+            <span className="fw-bold">{ammo.penetration_mm} mm</span>
+          </li>
+
+          <li className="d-flex align-items-center justify-content-between flex-wrap pb-1 mb-1 border-bottom column-gap-2">
+            <span className="fw-bold">Caliber</span>
+            <span className="text-muted">{ammo.caliber_mm} mm</span>
+          </li>
+
+          <li className="d-flex align-items-center justify-content-between flex-wrap pb-1 mb-1 border-bottom column-gap-2">
+            <span className="fw-bold">Projectile Mass</span>
+            <span className="text-muted">{ammo.projectile_mass_kg} kg</span>
+          </li>
+
+          <li className="d-flex align-items-center justify-content-between flex-wrap pb-1 mb-1 border-bottom column-gap-2">
+              <div className="fw-bold">Muzzle Velocity</div>
+              <div className="text-muted">{ammo.muzzle_velocity_ms} m/s</div>
+            </li>
+
+            {ammo.fuze_delay_m && (
+              <li className="d-flex align-items-center justify-content-between flex-wrap pb-1 mb-1 border-bottom column-gap-2">
+                <div className="fw-bold">Fuze Delay</div>
+                <div className="text-muted">{ammo.fuze_delay_m} m</div>
+              </li>
+            )}
+
+            {ammo.fuze_sensitivity_mm && (
+              <li className="d-flex align-items-center justify-content-between flex-wrap pb-1 mb-1 border-bottom column-gap-2">
+                <div className="fw-bold">Fuze Sensitivity</div>
+                <div className="text-muted">{ammo.fuze_sensitivity_mm} mm</div>
+              </li>
+            )}
+
+            {ammo.explosive_type && (
+              <li className="d-flex align-items-center justify-content-between flex-wrap pb-1 mb-1 border-bottom column-gap-2">
+                <div className="fw-bold">Explosive Type</div>
+                <div className="text-muted">{ammo.explosive_type}</div>
+              </li>
+            )}
+
+            {ammo.explosive_mass_kg && (
+              <li className="d-flex align-items-center justify-content-between flex-wrap pb-1 mb-1 border-bottom column-gap-2">
+                <div className="fw-bold">Explosive Mass</div>
+                <div className="text-muted">{ammo.explosive_mass_kg} kg</div>
+              </li>
+            )}
+
+            {ammo.tnt_equivalent_kg && (
+              <li className="d-flex align-items-center justify-content-between flex-wrap pb-1 mb-1 border-bottom column-gap-2">
+                <div className="fw-bold">TNT equivalent</div>
+                <div className="text-muted">{ammo.tnt_equivalent_kg} kg</div>
+              </li>
+            )}
+        </ul>
       </Popover.Body>
     </Popover>
   );
@@ -293,9 +288,9 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
 
   return (
     <>
-      <div className="game-unit">
+      <div className={`game-unit game-unit--${vehicle.vehicle_statuses.id} w-100`}>
         <div id="general">
-          <Card className="game-unit_header overflow-hidden border-0 position-relative mb-3 text-light">
+          <div className="game-unit_header overflow-hidden border-0 position-relative mb-3 text-light rounded">
             <div className="game-unit_card position-relative">
               <div className="game-unit_template position-absolute w-100 h-100 start-0 top-0">
                 <Image className="game-unit_template-flag position-absolute start-0 h-50" src={`https://static.encyclopedia.warthunder.com/unit_tooltip/${getCountryIcons({ nation: vehicle.nations.id, operator: vehicle?.operators?.id })}.png`} />
@@ -303,59 +298,58 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                 <Image className="game-unit_template-image position-absolute start-0 bottom-0 h-100" src={`https://static.encyclopedia.warthunder.com/images/${vehicle.id.toLowerCase()}.png`} />
               </div>
 
-              <div className="game-unit_title position-absolute bottom-0 w-100 z-1">
-                <div className="game-unit_nation d-flex align-items-end gap-2 overflow-hidden">{vehicle.vehicle_types.name}</div>
+              <div className="game-unit_title position-absolute bottom-0 w-100 z-1 px-4">
+                <div className="game-unit_nation d-flex align-items-end gap-2 overflow-hidden fs-6">{vehicle.vehicle_types.name}</div>
 
-                <div className="game-unit_name fw-bold overflow-hidden font-wt">{vehicle.name}</div>
+                <div className="game-unit_name fw-bold fs-1 overflow-hidden font-wt">{vehicle.name}</div>
               </div>
             </div>
 
-            <div className="game-unit_card-info d-flex flex-column">
-              <div className="game-unit_card-info_line d-flex w-100 mw-100">
-                <div className="game-unit_card-info_item game-unit_rank flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden">
+            <div className="game-unit_card-info d-flex flex-column position-absolute gap-1">
+              <div className="game-unit_card-info_line d-flex w-100 mw-100 gap-1">
+                <div className="game-unit_card-info_item game-unit_rank flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden gap-1 py-2 px-3">
                   <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-4 fw-bold">{getRankStrings(vehicle.rank)}</div>
-                  <div className="game-unit_card-info_title text-muted fs-12 overflow-hidden">Rank</div>
+                  <div className="game-unit_card-info_title text-muted fs-6 overflow-hidden">Rank</div>
                 </div>
 
-                <div className="game-unit_card-info_item game-unit_br flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden">
-                  <div className="game-unit_card-info_value d-grid align-items-center flex-grow-1 fs-15 gap-1">
-                    <div className="game-unit_br-item flex-grow-1 text-center position-relative">
-                      <div className="mode text-gray fs-11">AB</div>
+                <div className="game-unit_card-info_item game-unit_br flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden gap-1 py-2 px-3">
+                  <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-6 gap-1">
+                    <div className="game-unit_br-item flex-grow-1 text-center position-relative d-flex flex-column">
+                      <span className="mode text-muted small">AB</span>
 
-                      <div className="value fw-bold fs-17">{ensureDecimal(vehicle.battle_rating_ab)}</div>
-                      
+                      <span className="value fw-bold fs-6">{ensureDecimal(vehicle.battle_rating_ab)}</span>
                     </div>
 
-                    <div className="game-unit_br-item flex-grow-1 text-center position-relative">
-                      <div className="mode text-gray fs-11">RB</div>
+                    <div className="game-unit_br-item flex-grow-1 text-center position-relative d-flex flex-column">
+                      <span className="mode text-muted small">RB</span>
 
-                      <div className="value fw-bold fs-17">{ensureDecimal(vehicle.battle_rating_rb)}</div>
+                      <span className="value fw-bold fs-6">{ensureDecimal(vehicle.battle_rating_rb)}</span>
                     </div>
 
-                    <div className="game-unit_br-item flex-grow-1 text-center position-relative">
-                      <div className="mode text-gray fs-11">SB</div>
+                    <div className="game-unit_br-item flex-grow-1 text-center position-relative d-flex flex-column">
+                      <span className="mode text-muted small">SB</span>
 
-                      <div className="value fw-bold fs-17">{ensureDecimal(vehicle.battle_rating_sb)}</div>
+                      <span className="value fw-bold fs-6">{ensureDecimal(vehicle.battle_rating_sb)}</span>
                     </div>
                   </div>
 
-                  <div className="game-unit_card-info_title text-muted fs-12 overflow-hidden">Battle rating</div>
+                  <div className="game-unit_card-info_title text-muted fs-6 overflow-hidden">Battle rating</div>
                 </div>
               </div>
 
-              <div className="game-unit_card-info_line d-flex w-100 mw-100">
-                <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden">
-                  <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-15">
+              <div className="game-unit_card-info_line d-flex w-100 mw-100 gap-1">
+                <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden gap-1 py-2 px-3">
+                  <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-6">
                     <Image src={`https://static.encyclopedia.warthunder.com/gui_skin/${getCountryIcons({ nation: vehicle.nations.id })}.svg`} width={20} height={18} />
 
                     <div className="text-truncate">{vehicle.nations.name}</div>
                   </div>
 
-                  <div className="game-unit_card-info_title text-muted fs-12 overflow-hidden">Research country</div>
+                  <div className="game-unit_card-info_title text-muted fs-6 overflow-hidden">Research country</div>
                 </div>
 
-                <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden">
-                  <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-15">
+                <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden gap-1 py-2 px-3">
+                  <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-6">
                     <svg width="20px" height="20px" viewBox="0 0 10 10" color={getClassIcons(vehicle.vehicle_classes.id).color}>
                       <use href={getClassIcons(vehicle.vehicle_classes.id).file} width="10" height="10" x="0" y="0"></use>
                     </svg>
@@ -363,14 +357,14 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                     <div className="text-truncate">{vehicle.vehicle_classes.name}</div>
                   </div>
 
-                  <div className="game-unit_card-info_title text-muted fs-12 overflow-hidden">Main role</div>
+                  <div className="game-unit_card-info_title text-muted fs-6 overflow-hidden">Main role</div>
                 </div>
               </div>
               
               {(vehicle.status_id === "techtree" || vehicle.status_id === "squadron") && (
-                <div className="game-unit_card-info_line d-flex w-100 mw-100">
-                  <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden">
-                    <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-15">
+                <div className="game-unit_card-info_line d-flex w-100 mw-100 gap-1">
+                  <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden gap-1 py-2 px-3">
+                    <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-6">
                       <div>{vehicle.research !== null ? numberWithCommas(vehicle.research) : 'Free'}</div>
 
                       {vehicle.research !== null && (
@@ -378,7 +372,7 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                           {vehicle.status_id === "techtree" ? (
                             <Image src="https://static.encyclopedia.warthunder.com/gui_skin/item_type_rp.svg" width="18px" alt="RP" title="Research Points" />
                           ) : vehicle.status_id === "squadron" && (
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 100 100" fill="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 100 100" fill="#738451">
                               <path className="cls-1" d="M50,94A44,44,0,1,1,94,50,44.019,44.019,0,0,1,50,94Zm0-4.552A39.473,39.473,0,0,0,89.449,50a47.076,47.076,0,0,0-.277-5.015H71.582L58.9,83.918,50.939,36.459l-8.91,35.7L31.949,44.113l-5.719,13.9H11.248C14.7,76.273,30.73,89.449,50,89.449Zm0-78.9A39.447,39.447,0,0,0,10.552,50c0,0.934.044,3.054,0.108,3.973H23.218L32.3,31.634l8.941,24.876,10.57-42.345L60.345,65,68.29,41H88.367A39.615,39.615,0,0,0,50,10.552Z"></path>
                             </svg>
                           )}
@@ -386,11 +380,11 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                       )}
                     </div>
 
-                    <div className="game-unit_card-info_title text-muted fs-12 overflow-hidden">Research</div>
+                    <div className="game-unit_card-info_title text-muted fs-6 overflow-hidden">Research</div>
                   </div>
 
-                  <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden">
-                    <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-15">
+                  <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden gap-1 py-2 px-3">
+                    <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-6">
                       <div>{vehicle.purchase !== null ? numberWithCommas(vehicle.purchase) : 'Free'}</div>
 
                       {vehicle.purchase !== null && (
@@ -400,32 +394,32 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                       )}
                     </div>
 
-                    <div className="game-unit_card-info_title text-muted fs-12 overflow-hidden">Purchase</div>
+                    <div className="game-unit_card-info_title text-muted fs-6 overflow-hidden">Purchase</div>
                   </div>
                 </div>
               )}
 
               {(vehicle.vehicle_statuses || vehicle.operators) ? (
                 <>
-                  <div className="game-unit_card-info_line d-flex w-100 mw-100">
-                    <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden">
-                      <div className="game-unit_card-info_value game-unit_status d-flex align-items-center flex-grow-1 fs-15">
+                  <div className="game-unit_card-info_line d-flex w-100 mw-100 gap-1">
+                    <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden gap-1 py-2 px-3">
+                      <div className="game-unit_card-info_value game-unit_status d-flex align-items-center flex-grow-1 fs-6">
                         <Image src={getStatusIcons(vehicle.vehicle_statuses.id)} height={15} />
 
                         <div className="text-truncate">{vehicle.vehicle_statuses.name} vehicle</div>
                       </div>
-                      <div className="game-unit_card-info_title text-muted fs-12 overflow-hidden">Status</div>
+                      <div className="game-unit_card-info_title text-muted fs-6 overflow-hidden">Status</div>
                     </div>
 
                     {vehicle.operators && (
                       <>
-                        <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden">
-                          <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-15">
+                        <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden gap-1 py-2 px-3">
+                          <div className="game-unit_card-info_value d-flex align-items-center flex-grow-1 fs-6">
                             <Image src={`https://static.encyclopedia.warthunder.com/gui_skin/${getCountryIcons({ nation: vehicle.nations.id, operator: vehicle.operators.id })}.svg`} height={18} />
 
                             <div className="text-truncate">{vehicle.operators.name}</div>
                           </div>
-                          <div className="game-unit_card-info_title text-muted fs-12 overflow-hidden">Operator</div>
+                          <div className="game-unit_card-info_title text-muted fs-6 overflow-hidden">Operator</div>
                         </div>
                       </>
                     )}
@@ -434,11 +428,11 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
               ) : null}
             </div>
 
-            <div className="game-unit_controls">
+            <div className="game-unit_controls d-flex align-items-center gap-2 overflow-hidden overflow-x-auto px-4 py-2">
               <ToolTip title={isLiked ? 'Unlike' : 'Like'}>
                 <Button
                   variant="dark"
-                  className={`game-unit_control game-unit_favorite-button d-flex align-items-center justify-content-center border-0${isLiked ? ' game-unit_favorite--favorite' : ''}`}
+                  className={`game-unit_control position-relative py-1 gap-1 game-unit_favorite-button d-flex align-items-center justify-content-center border-0${isLiked ? ' game-unit_favorite--favorite' : ''}`}
                   onClick={toggleLike}
                   disabled={likeCount === null || isLiking}
                   aria-pressed={isLiked}
@@ -460,11 +454,11 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
               </ToolTip>
 
               <div className="game-unit_compare-wrapper">
-                <Button variant="dark" id="game-unit_compare" className="game-unit_control d-flex align-items-center justify-content-center border-0">
+                <Button variant="dark" id="game-unit_compare" className="game-unit_control position-relative py-1 gap-1 d-flex align-items-center justify-content-center border-0">
                   <FaScaleBalanced className="fs-6" />
                   <span>Compare</span>
                 </Button>
-                <Button variant="dark" id="game-unit_compare-remove" className="game-unit_control p-0 d-none" style={{ width: "30px" }}>
+                <Button variant="dark" id="game-unit_compare-remove" className="game-unit_control position-relative py-1 gap-1 p-0 d-none" style={{ width: "30px" }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 -960 960 960" fill="currentColor">
                     <path d="M291-253.847 253.847-291l189-189-189-189L291-706.153l189 189 189-189L706.153-669l-189 189 189 189L669-253.847l-189-189-189 189Z"></path>
                   </svg>
@@ -472,33 +466,30 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
               </div>
 
               <div className="position-relative">
-                <Button variant="dark" href={`https://wiki.warthunder.com/unit/${vehicle.id}`} target="_blank" id="game-unit_game-view" className="game-unit_control d-flex align-items-center justify-content-center border-0">
+                <Button variant="dark" href={`https://wiki.warthunder.com/unit/${vehicle.id}`} target="_blank" id="game-unit_game-view" className="game-unit_control position-relative py-1 gap-1 d-flex align-items-center justify-content-center border-0">
                   <TbDeviceDesktopShare className="fs-6" />
                   <span>Show on wiki</span>
-                </Button>
-                <Button variant="dark" id="game-unit_game-view-help" className="game-unit_control-help p-0 d-flex align-items-center justify-content-center rounded-circle">
-                  <BsQuestion className="fs-6" />
                 </Button>
               </div>
 
             </div>
-          </Card>
+          </div>
         </div>
 
-        <div className="game-unit_content">
+        <div className="game-unit_content d-flex">
           <div className="game-unit_data position-relative">
             <div id="specification">
               {vehicle.vehicle_weapons && (
                 <>
-                  <Card id="weapon" className="block mb-3 border-0">
-                    <Card.Header className="block-header">Armaments</Card.Header>
+                  <Card id="weapon" className="block mb-3 border-0 bg-dark-lighter w-100">
+                    <Card.Header className="block-header bg-dark-lighter fs-6">Armaments</Card.Header>
 
-                    <Card.Body className="block-content pb-3">
+                    <Card.Body className="block-content pt-2">
                       <div className="tab-content">
                         <div id="weapon-preset-0" className="">
                           {sortedWeapons.map((vehicle_weapon: any) => (
-                            <div className="game-unit_weapon" key={vehicle_weapon.id}>
-                              <div className="game-unit_weapon-title">
+                            <div className="game-unit_weapon border border-secondary p-2 rounded mb-3 position-relative" key={vehicle_weapon.id}>
+                              <div className="game-unit_weapon-title position-absolute fs-6 bg-dark-lighter overflow-hidden">
                                 <span className="text-info text-decoration-underline">{vehicle_weapon.weapon.name} {vehicle_weapon.type}</span>{" "}
                                 <span>{vehicle_weapon.weapon.weapon_type && `(${vehicle_weapon.weapon.weapon_type})`}</span>
                               </div>
@@ -506,7 +497,7 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                               {vehicle_weapon.type === "cannon" ? (
                                 <>
                                   {vehicle_weapon.features && (
-                                    <div className="game-unit_features mt-1">
+                                    <div className="game-unit_features d-grid gap-1 mt-1">
                                       {vehicle_weapon.features.map((feature: any) => (
                                         <OverlayTrigger
                                           key={feature.id}
@@ -523,38 +514,38 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                                         >
                                           <Button
                                             variant="transparent"
-                                            className="game-unit_feature"
+                                            className="game-unit_feature d-flex align-items-center border-secondary gap-2 overflow-hidden"
                                             onClick={() => setActiveFeatureId((current) => current === feature.id ? null : feature.id)}
                                             aria-label={`Show details for ${feature.name}`}
                                           >
                                             <div className="icon">{getFeatureIcons(feature.id)}</div>
 
-                                            <span>{feature.name}</span>
+                                            <span className="small overflow-hidden">{feature.name}</span>
                                           </Button>
                                         </OverlayTrigger>
                                       ))}
                                     </div>
                                   )}
 
-                                  <div className="game-unit_chars mt-2">
+                                  <div className="game-unit_chars mt-2 fs-6">
                                     <div className="game-unit_chars-block">
-                                      <div className="game-unit_chars-line">
-                                        <span className="game-unit_chars-header">Ammunition</span>
+                                      <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
+                                        <span className="fw-bold">Ammunition</span>
                                         <span className="game-unit_chars-value">{vehicle_weapon.ammo_quantity} rounds</span>
                                       </div>
 
-                                      <div className="game-unit_chars-subline">
+                                      <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
                                         <span>First-order</span>
                                         <span className="game-unit_chars-value">{vehicle_weapon.first_order_ammo} rounds</span>
                                       </div>
                                     </div>
                                     <div className="game-unit_chars-block">
-                                      <div className="game-unit_chars-line">
-                                        <span className="game-unit_chars-header">Reload</span>
-                                        <span className="game-unit_chars-info">basic crew → aces</span>
+                                      <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
+                                        <span className="fw-bold">Reload</span>
+                                        <span className="game-unit_chars-info small">basic crew → aces</span>
                                       </div>
 
-                                      <div className="game-unit_chars-subline">
+                                      <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
                                         <span></span>
                                         <span className="game-unit_chars-value">{vehicle_weapon.reload_time_seconds} s</span>
                                       </div>
@@ -563,30 +554,30 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                                 </>
                               ) : (
                                 <>
-                                  <div className="game-unit_chars mt-2">
+                                  <div className="game-unit_chars mt-2 fs-6">
                                     <div className="game-unit_chars-block">
-                                      <div className="game-unit_chars-line">
-                                        <span className="game-unit_chars-header">Ammunition</span>
+                                      <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
+                                        <span className="fw-bold">Ammunition</span>
                                         <span className="game-unit_chars-value">{numberWithCommas(vehicle_weapon.ammo_quantity)} rounds</span>
                                       </div>
 
-                                      <div className="game-unit_chars-subline">
+                                      <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
                                         <span>Belt capacity</span>
                                         <span className="game-unit_chars-value">{numberWithCommas(vehicle_weapon.belt_capacity)} rounds</span>
                                       </div>
                                     </div>
                                     <div className="game-unit_chars-block">
-                                      <div className="game-unit_chars-line">
-                                        <span className="game-unit_chars-header">Reload</span>
-                                        <span className="game-unit_chars-info">basic crew → aces</span>
+                                      <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
+                                        <span className="fw-bold">Reload</span>
+                                        <span className="game-unit_chars-info small">basic crew → aces</span>
                                       </div>
 
-                                      <div className="game-unit_chars-subline">
+                                      <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
                                         <span></span>
                                         <span className="game-unit_chars-value">{vehicle_weapon.reload_time_seconds} s</span>
                                       </div>
 
-                                      <div className="game-unit_chars-line">
+                                      <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
                                         <span>Fire rate</span>
                                         <span className="game-unit_chars-value">{numberWithCommas(vehicle_weapon.fire_rate_rpm)} shots/min</span>
                                       </div>
@@ -600,7 +591,7 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                                   <Accordion.Item eventKey="0">
                                     <Accordion.Header>{vehicle_weapon.type === "cannon" ? "Available ammunition" : "Available belts"}</Accordion.Header>
                                     <Accordion.Body className="p-0">
-                                      <Table className="game-unit_belt-list">
+                                      <Table className="game-unit_belt-list w-100 text-center m-0">
                                         <thead>
                                           <tr>
                                             {vehicle_weapon.type === "cannon" ? (
@@ -623,7 +614,7 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                                             <>
                                               {vehicle_weapon.vehicle_ammunition.map((ammo: any) => (
                                                 <tr key={ammo.id}>
-                                                  <td>
+                                                  <td className="py-1 px-0 align-content-center d-flex border-0">
                                                     <OverlayTrigger
                                                       trigger="click"
                                                       placement="auto"
@@ -655,8 +646,8 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                                                       </Button>
                                                     </OverlayTrigger>
                                                   </td>
-                                                  <td className="shell-variant">{ammo.ammunition.variant}</td>
-                                                  <td className="shell-pen">{ammo.penetration_mm}</td>
+                                                  <td className="shell-variant py-1 px-0 align-content-center">{ammo.ammunition.variant}</td>
+                                                  <td className="shell-pen py-1 px-0 align-content-center">{ammo.penetration_mm}</td>
                                                 </tr>
                                               ))}
                                             </>
@@ -667,7 +658,7 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
 
                                                 return (
                                                   <tr key={beltKey} className={belt.belt_id}>
-                                                    <td>
+                                                    <td className="py-1 px-0 align-content-center d-flex border-0">
                                                       <OverlayTrigger
                                                         trigger="click"
                                                         placement="auto"
@@ -693,8 +684,8 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                                                         </Button>
                                                       </OverlayTrigger>
                                                     </td>
-                                                    <td className="belt-filling">{belt.belt.belt_filling}</td>
-                                                    <td className="belt-pen">{belt.belt.max_penetration_mm}</td>
+                                                    <td className="belt-filling py-1 px-0 align-content-center">{belt.belt.belt_filling}</td>
+                                                    <td className="belt-pen py-1 px-0 align-content-center">{belt.belt.max_penetration_mm}</td>
                                                   </tr>
                                                 );
                                               })}

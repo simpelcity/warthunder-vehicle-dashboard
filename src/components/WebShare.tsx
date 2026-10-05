@@ -2,6 +2,10 @@ import { Button } from 'react-bootstrap'
 import { IoShareSocialOutline } from "react-icons/io5";
 
 const WebShare = () => {
+  if (typeof navigator === 'undefined' || !navigator.share) {
+    return null;
+  }
+
   const handleShare = async () => {
     try {
       await navigator.share({
@@ -11,12 +15,6 @@ const WebShare = () => {
     } catch (error) {
       console.log('Error sharing:', error);
     }
-    // if (navigator.share) {
-    // } else {
-    //   // Fallback: Copy to clipboard
-    //   await navigator.clipboard.writeText(window.location.href);
-    //   alert('Link copied to clipboard!');
-    // }
   };
 
   return (

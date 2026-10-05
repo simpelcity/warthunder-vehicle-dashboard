@@ -1,4 +1,4 @@
-import type { Shell, KineticShell, ChemicalShell, TankShellVariant, Armor, Damage } from "@/types/TankShells";
+import type { Shell, KineticShell, ChemicalShell, TankShellVariant, Armor, Damage } from "@/src/types/Ammunition";
 
 const WT_SKIN_BASE = "https://static.encyclopedia.warthunder.com/gui_skin";
 

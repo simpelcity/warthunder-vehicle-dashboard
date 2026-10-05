@@ -4,7 +4,6 @@ import { supabase } from '@/lib/supabaseClient'
 import { Container, Button } from 'react-bootstrap'
 import '@/styles/pages/VehicleDetails.scss'
 import { FaArrowLeftLong } from 'react-icons/fa6'
-// import type { Vehicle } from '@/types/Vehicle'
 import { VehicleDetails } from '@/components'
 import { useNavigate, useLocation } from 'react-router-dom'
 
@@ -71,7 +70,18 @@ export default function VehicleDetailsPage() {
         vehicle_classes (*),
 
         vehicle_weapons (
-          *,
+          id,
+          vehicle_id,
+          weapon_id,
+          type,
+          quantity,
+          slot,
+          ammo_quantity,
+          first_order_ammo,
+          reload_time_seconds,
+          belt_capacity,
+          fire_rate_rpm,
+          features,
 
           weapon:weapons (
             id,
@@ -150,8 +160,6 @@ export default function VehicleDetailsPage() {
   
   if (!vehicle) return null
   document.title = `${vehicle.name} - War Thunder Vehicle Dashboard`
-
-  // console.log(window)
 
   return (
     <>
