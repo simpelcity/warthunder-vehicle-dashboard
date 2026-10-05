@@ -131,7 +131,6 @@
 
 .game-unit_belt-list thead tr th {
   background-color: #404040 !important;
-  // font-size: 12.8px !important;
 }
 
 .game-unit_belt-list tr {
@@ -145,7 +144,6 @@
 
 .shell-designation,
 .belt-name {
-  // font-size: 12.16px;
   text-decoration: underline;
   text-decoration-style: dotted;
 }
@@ -163,11 +161,6 @@
   width: 38px;
   height: 38px;
   flex-shrink: 0;
-}
-
-.game-unit_popover-header .icon .icon {
-  width: 100%;
-  height: 100%;
 }
 
 .game-unit_favorite--favorite,
