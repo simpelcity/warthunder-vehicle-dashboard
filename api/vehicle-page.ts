@@ -35,7 +35,11 @@ export default async function handler(
 
   if (!host) return res.status(500).send("Missing host");
 
-  const origin = `https://${host}`;
+  const protocol =
+    req.headers["x-forwarded-proto"] ||
+    (process.env.NODE_ENV === "development" ? "http" : "https");
+
+  const origin = `${protocol}://${host}`;
 
   /*
    * Get the normal Vite-generated index.html.
