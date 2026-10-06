@@ -69,6 +69,16 @@ export default function VehicleDetailsPage() {
 
         vehicle_classes (*),
 
+        vehicle_armour (*),
+
+        vehicle_mobility (*),
+
+        vehicle_optics (
+          *,
+
+          optical_device:optical_devices (*)
+        ),
+
         vehicle_weapons (
           id,
           vehicle_id,
@@ -172,13 +182,6 @@ export default function VehicleDetailsPage() {
 
   return (
     <>
-      {/* <meta name="og:image" content={`https://wiki.warthunder.com/assets/gunit_social/${vehicle.id}.jpg`} /> */}
-      {/* <meta property="og:image" content="https://warthunder-vehicle-dashboard.vercel.app/assets/germ_leopard_2pl.jpg" /> */}
-      {/* <meta name="og:image:width" content="1200" />
-      <meta name="og:image:height" content="630" />
-      <meta name="twitter:image" content={`https://wiki.warthunder.com/assets/gunit_social/${vehicle.id}.jpg`} />
-      <meta name="vk:image" content={`https://wiki.warthunder.com/assets/gunit_social/${vehicle.id}.jpg`} /> */}
-
       <Container className="px-0 py-4 p-md-4 d-flex flex-column align-items-center">
         <div className="mb-3 d-flex justify-content-between w-100">
           <Button variant="primary" className={`border-0 rounded-1 px-3 fs-5 d-inline-flex column-gap-1 fw-semibold${isMobile ? ' rounded-start-0' : ''}`} href="/">

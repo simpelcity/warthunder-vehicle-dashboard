@@ -56,14 +56,13 @@
   letter-spacing: 1px;
 }
 
-.text-gray {
-  // line-height: 1;
-  color: #ccc;
-  margin-bottom: 1px;
-}
-
 .game-unit_card-info_value {
   gap: 5px;
+}
+
+.game-unit_favorite--favorite,
+.game-unit_favorite--favorite span {
+  color: red !important;
 }
 
 .btn-dark {
@@ -163,9 +162,18 @@
   flex-shrink: 0;
 }
 
-.game-unit_favorite--favorite,
-.game-unit_favorite--favorite span {
-  color: red !important;
+.gunit_specs-table_row {
+  border-bottom: 1px dashed #404040;
+}
+
+.gunit_specs-table_row > div {
+  flex-basis: 0px;
+}
+
+.gunit_specs-table_btn {
+  text-decoration: underline !important;
+  text-decoration-style: dotted !important;
+  text-decoration-color: #969c9d !important;
 }
 
 .toast {

@@ -41,27 +41,14 @@ export default async function handler(
 
   const origin = `${protocol}://${host}`;
 
-  /*
-   * Get the normal Vite-generated index.html.
-   * React will still boot normally after the HTML is returned.
-   */
   const indexResponse = await fetch(`${origin}/index.html`);
 
   if (!indexResponse) return res.status(500).send("Could not load application HTML");
 
   let html = await indexResponse.text();
 
-  /*
-   * The image URL can be generated directly from the vehicle ID.
-   */
   const imageUrl = `https://wiki.warthunder.com/assets/gunit_social/${encodeURIComponent(id)}.jpg`;
 
-  /*
-   * Get the vehicle name from Supabase.
-   *
-   * This uses the same public/publishable key that your React app
-   * already uses. Do NOT use a service-role key here.
-   */
   let vehicleName = id;
 
   const supabaseUrl = process.env.VITE_SUPABASE_URL;
@@ -98,9 +85,6 @@ export default async function handler(
   const safeImageUrl = escapeHtml(imageUrl);
   const safePageUrl = escapeHtml(pageUrl);
 
-  /*
-   * Replace the normal title and inject the social metadata.
-   */
   html = html.replace(
     /<title>.*?<\/title>/i,
     `<title>${safeTitle}</title>`,
@@ -111,6 +95,8 @@ export default async function handler(
     <meta property="og:type" content="website" />
     <meta property="og:url" content="${safePageUrl}" />
     <meta property="og:image" content="${safeImageUrl}" />
+    <meta name="og:image:width" content="1200" />
+    <meta name="og:image:height" content="630" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${safeTitle}" />

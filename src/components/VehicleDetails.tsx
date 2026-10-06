@@ -279,7 +279,50 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
             <span className="fw-bold fs-6">{feature.name}</span>
           </div>
 
-          <div className="game-unit_popover-content">{feature.description}</div>
+          <div className="game-unit_popover-content">
+            {feature.description}
+            {feature.can_fire && (
+              <ul className="m-0 mt-2 mb-1 ps-4">
+                {feature.can_fire.map((name: string) => (
+                  <li key={name}>{name} can fire</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </Popover.Body>
+    </Popover>
+  );
+
+  const OpticalDevicePopover = (optic: any) => (
+    <Popover id={`optical-device-popover-${optic.id}`} className="game-unit_popover">
+      <Popover.Body>
+        <div>
+          <div className="game-unit_popover-header d-flex align-items-center gap-2 mb-2">
+            <div className="icon">{getFeatureIcons(optic.optical_device.id)}</div>
+            <span className="fw-bold fs-6">{optic.optical_device.name}</span>
+          </div>
+
+          <div className="game-unit_popover-content">
+            {optic.optical_device.description}
+            {optic.optical_device_id === "thermal_imager" && (
+              <div className="mt-1">
+                <div className="my-1 text-muted small text-center">Optics resolution</div>
+
+                <div className="gunit_specs-table_row fw-bold d-flex gap-1 text-center pb-1">
+                  {vehicle.vehicle_optics.map((optic: any) => (
+                    <div key={optic.id} className="flex-grow-1 flex-shrink-1">{optic.crew_member}</div>
+                  ))}
+                </div>
+
+                <div className="gunit_specs-table_row d-flex gap-1 text-center pb-1 mt-1">
+                  {vehicle.vehicle_optics.map((optic: any) => (
+                    <div key={optic.id} className="flex-grow-1 flex-shrink-1 small">{optic.optics_zoom ? optic.optics_zoom : '-'}</div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </Popover.Body>
     </Popover>
@@ -289,7 +332,7 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
     <>
       <div className={`game-unit game-unit--${vehicle.vehicle_statuses.id} w-100`}>
         <div id="general">
-          <div className="game-unit_header overflow-hidden border-0 position-relative mb-3 text-light rounded">
+          <div className="game-unit_header overflow-hidden border-0 position-relative mb-3 rounded">
             <div className="game-unit_card position-relative">
               <div className="game-unit_template position-absolute w-100 h-100 start-0 top-0">
                 <Image className="game-unit_template-flag position-absolute start-0 h-50" src={`https://static.encyclopedia.warthunder.com/unit_tooltip/${getCountryIcons({ nation: vehicle.nations.id, operator: vehicle?.operators?.id })}.png`} />
@@ -473,227 +516,492 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
           </div>
         </div>
 
-        <div className="game-unit_content d-flex">
-          <div className="game-unit_data position-relative">
-            <div id="specification">
-              {vehicle.vehicle_weapons.length !== 0 && (
-                <>
-                  <Card id="weapon" className="block mb-3 border-0 bg-dark-subtle w-100">
-                    <Card.Header className="block-header bg-dark-subtle fs-6">Armaments</Card.Header>
+        <div className="game-unit_content d-flex column-gap-3">
+          <div className="game-unit_data position-relative w-100">
+            {vehicle.vehicle_weapons.length !== 0 && (
+              <>
+                <Card id="weapon" className="mb-3 border-0 w-100">
+                  <Card.Header className="fs-6">Armaments</Card.Header>
 
-                    <Card.Body className="block-content pt-2">
-                      <div className="tab-content">
-                        <div id="weapon-preset-0" className="">
-                          {sortedWeapons.map((vehicle_weapon: any) => (
-                            <div className="game-unit_weapon border border-secondary p-2 rounded mb-3 position-relative" key={vehicle_weapon.id}>
-                              <div className="game-unit_weapon-title position-absolute fs-6 bg-dark-lighter overflow-hidden">
-                                <span className="text-info text-decoration-underline">{vehicle_weapon.weapon.name} {vehicle_weapon.type}</span>{" "}
-                                <span>{vehicle_weapon.weapon.weapon_type && `(${vehicle_weapon.weapon.weapon_type})`}</span>
-                              </div>
+                  <Card.Body className="pt-2">
+                    <div className="tab-content">
+                      <div id="weapon-preset-0">
+                        {sortedWeapons.map((vehicle_weapon: any) => (
+                          <div className="game-unit_weapon border border-secondary p-2 rounded mb-3 position-relative" key={vehicle_weapon.id}>
+                            <div className="game-unit_weapon-title position-absolute fs-6 bg-dark-lighter overflow-hidden">
+                              <span className="text-info text-decoration-underline">{vehicle_weapon.weapon.name} {vehicle_weapon.type}</span>{" "}
+                              <span>{vehicle_weapon.weapon.weapon_type && `(${vehicle_weapon.weapon.weapon_type})`}</span>
+                            </div>
 
-                              {vehicle_weapon.type === "cannon" ? (
-                                <>
-                                  {vehicle_weapon.features && (
-                                    <div className="game-unit_features d-grid gap-1 mt-1">
-                                      {vehicle_weapon.features.map((feature: any) => (
-                                        <OverlayTrigger
-                                          key={feature.id}
-                                          trigger="click"
-                                          placement="auto"
-                                          show={activeFeatureId === feature.id}
-                                          rootClose
-                                          onToggle={(nextShow) => {
-                                            if (!nextShow && activeFeatureId === feature.id) {
-                                              setActiveFeatureId(null);
-                                            }
-                                          }}
-                                          overlay={FeaturePopover(feature)}
+                            {vehicle_weapon.type === "cannon" ? (
+                              <>
+                                {vehicle_weapon.features && (
+                                  <div className="game-unit_features d-grid gap-1 mt-1 mb-2">
+                                    {vehicle_weapon.features.map((feature: any) => (
+                                      <OverlayTrigger
+                                        key={feature.id}
+                                        trigger="click"
+                                        placement="auto"
+                                        show={activeFeatureId === feature.id}
+                                        rootClose
+                                        onToggle={(nextShow) => {
+                                          if (!nextShow && activeFeatureId === feature.id) {
+                                            setActiveFeatureId(null);
+                                          }
+                                        }}
+                                        overlay={FeaturePopover(feature)}
+                                      >
+                                        <Button
+                                          variant="transparent"
+                                          className="game-unit_feature d-flex align-items-center border-secondary gap-2 overflow-hidden"
+                                          onClick={() => setActiveFeatureId((current) => current === feature.id ? null : feature.id)}
+                                          aria-label={`Show details for ${feature.name}`}
                                         >
-                                          <Button
-                                            variant="transparent"
-                                            className="game-unit_feature d-flex align-items-center border-secondary gap-2 overflow-hidden"
-                                            onClick={() => setActiveFeatureId((current) => current === feature.id ? null : feature.id)}
-                                            aria-label={`Show details for ${feature.name}`}
-                                          >
-                                            <div className="icon">{getFeatureIcons(feature.id)}</div>
+                                          <div className="icon">{getFeatureIcons(feature.id)}</div>
 
-                                            <span className="small overflow-hidden">{feature.name}</span>
-                                          </Button>
-                                        </OverlayTrigger>
-                                      ))}
+                                          <span className="small overflow-hidden">{feature.name}</span>
+                                        </Button>
+                                      </OverlayTrigger>
+                                    ))}
+                                  </div>
+                                )}
+
+                                <div className="game-unit_chars fs-6">
+                                  <div className="game-unit_chars-block">
+                                    <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
+                                      <span className="fw-bold">Ammunition</span>
+                                      <span className="game-unit_chars-value">{vehicle_weapon.ammo_quantity} rounds</span>
                                     </div>
-                                  )}
 
-                                  <div className="game-unit_chars mt-2 fs-6">
-                                    <div className="game-unit_chars-block">
-                                      <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
-                                        <span className="fw-bold">Ammunition</span>
-                                        <span className="game-unit_chars-value">{vehicle_weapon.ammo_quantity} rounds</span>
-                                      </div>
-
-                                      <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
-                                        <span>First-order</span>
-                                        <span className="game-unit_chars-value">{vehicle_weapon.first_order_ammo} rounds</span>
-                                      </div>
-                                    </div>
-                                    <div className="game-unit_chars-block">
-                                      <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
-                                        <span className="fw-bold">Reload</span>
-                                        <span className="game-unit_chars-info small">basic crew → aces</span>
-                                      </div>
-
-                                      <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
-                                        <span></span>
-                                        <span className="game-unit_chars-value">{vehicle_weapon.reload_time_seconds} s</span>
-                                      </div>
+                                    <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
+                                      <span>First-order</span>
+                                      <span className="game-unit_chars-value">{vehicle_weapon.first_order_ammo} rounds</span>
                                     </div>
                                   </div>
-                                </>
-                              ) : (
-                                <>
-                                  <div className="game-unit_chars mt-2 fs-6">
-                                    <div className="game-unit_chars-block">
-                                      <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
-                                        <span className="fw-bold">Ammunition</span>
-                                        <span className="game-unit_chars-value">{numberWithCommas(vehicle_weapon.ammo_quantity)} rounds</span>
-                                      </div>
-
-                                      <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
-                                        <span>Belt capacity</span>
-                                        <span className="game-unit_chars-value">{numberWithCommas(vehicle_weapon.belt_capacity)} rounds</span>
-                                      </div>
+                                  <div className="game-unit_chars-block">
+                                    <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
+                                      <span className="fw-bold">Reload</span>
+                                      <span className="game-unit_chars-info small">basic crew → aces</span>
                                     </div>
-                                    <div className="game-unit_chars-block">
-                                      <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
-                                        <span className="fw-bold">Reload</span>
-                                        <span className="game-unit_chars-info small">basic crew → aces</span>
-                                      </div>
 
-                                      <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
-                                        <span></span>
-                                        <span className="game-unit_chars-value">{vehicle_weapon.reload_time_seconds} s</span>
-                                      </div>
-
-                                      <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
-                                        <span>Fire rate</span>
-                                        <span className="game-unit_chars-value">{numberWithCommas(vehicle_weapon.fire_rate_rpm)} shots/min</span>
-                                      </div>
+                                    <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
+                                      <span></span>
+                                      <span className="game-unit_chars-value">{vehicle_weapon.reload_time_seconds} s</span>
                                     </div>
                                   </div>
-                                </>
-                              )}
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <div className="game-unit_chars mt-2 fs-6">
+                                  <div className="game-unit_chars-block">
+                                    <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
+                                      <span className="fw-bold">Ammunition</span>
+                                      <span className="game-unit_chars-value">{numberWithCommas(vehicle_weapon.ammo_quantity)} rounds</span>
+                                    </div>
 
-                              <div className="game-unit_belts mt-2">
-                                <Accordion className="fs-6">
-                                  <Accordion.Item eventKey="0">
-                                    <Accordion.Header>{vehicle_weapon.type === "cannon" ? "Available ammunition" : "Available belts"}</Accordion.Header>
-                                    <Accordion.Body className="p-0">
-                                      <Table className="game-unit_belt-list w-100 text-center m-0">
-                                        <thead>
-                                          <tr>
-                                            {vehicle_weapon.type === "cannon" ? (
-                                              <>
-                                                <th scope="col">Ammunition</th>
-                                                <th scope="col">Type</th>
-                                                <th scope="col">Armor penetration (mm)</th>
-                                              </>
-                                            ) : (
-                                              <>
-                                                <th scope="col">Belt</th>
-                                                <th scope="col">Belt filling</th>
-                                                <th scope="col">Armor penetration (mm)</th>
-                                              </>
-                                            )}
-                                          </tr>
-                                        </thead>
-                                        <tbody>
+                                    <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
+                                      <span>Belt capacity</span>
+                                      <span className="game-unit_chars-value">{numberWithCommas(vehicle_weapon.belt_capacity)} rounds</span>
+                                    </div>
+                                  </div>
+                                  <div className="game-unit_chars-block">
+                                    <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
+                                      <span className="fw-bold">Reload</span>
+                                      <span className="game-unit_chars-info small">basic crew → aces</span>
+                                    </div>
+
+                                    <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
+                                      <span></span>
+                                      <span className="game-unit_chars-value">{vehicle_weapon.reload_time_seconds} s</span>
+                                    </div>
+
+                                    <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
+                                      <span>Fire rate</span>
+                                      <span className="game-unit_chars-value">{numberWithCommas(vehicle_weapon.fire_rate_rpm)} shots/min</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+
+                            <div className="game-unit_belts mt-2">
+                              <Accordion className="fs-6">
+                                <Accordion.Item eventKey="0">
+                                  <Accordion.Header>{vehicle_weapon.type === "cannon" ? "Available ammunition" : "Available belts"}</Accordion.Header>
+                                  <Accordion.Body className="p-0">
+                                    <Table className="game-unit_belt-list w-100 text-center m-0">
+                                      <thead>
+                                        <tr>
                                           {vehicle_weapon.type === "cannon" ? (
                                             <>
-                                              {vehicle_weapon.vehicle_ammunition.map((ammo: any) => (
-                                                <tr key={ammo.id}>
+                                              <th scope="col">Ammunition</th>
+                                              <th scope="col">Type</th>
+                                              <th scope="col">Armor penetration (mm)</th>
+                                            </>
+                                          ) : (
+                                            <>
+                                              <th scope="col">Belt</th>
+                                              <th scope="col">Belt filling</th>
+                                              <th scope="col">Armor penetration (mm)</th>
+                                            </>
+                                          )}
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {vehicle_weapon.type === "cannon" ? (
+                                          <>
+                                            {vehicle_weapon.vehicle_ammunition.map((ammo: any) => (
+                                              <tr key={ammo.id}>
+                                                <td className="py-1 px-0 align-content-center d-flex border-0">
+                                                  <OverlayTrigger
+                                                    trigger="click"
+                                                    placement="auto"
+                                                    show={activeAmmoId === ammo.id}
+                                                    rootClose
+                                                    onToggle={(nextShow) => {
+                                                      if (!nextShow && activeAmmoId === ammo.id) {
+                                                        setActiveAmmoId(null);
+                                                      }
+                                                    }}
+                                                    overlay={ShellPopover(ammo)}
+                                                  >
+                                                    <Button
+                                                      variant="transparent"
+                                                      className="border-0 text-light d-inline-flex align-items-center column-gap-2 py-0 ps-2 ms-1 pe-1"
+                                                      onClick={() => setActiveAmmoId((current) => current === ammo.id ? null : ammo.id)}
+                                                      aria-label={`Show details for ${ammo.ammunition.designation}`}
+                                                    >
+                                                      <div className="game-unit_b-icon position-relative overflow-hidden">
+                                                        <div className="game-unit_b-icon_decor position-absolute w-100 h-100 start-0 top-0">
+                                                          <Image src={getTankShellDecorIcons(ammo).damage} alt="Damage" className="position-absolute w-100 start-0 top-0" />
+                                                          <Image src={getTankShellDecorIcons(ammo).armor} alt="Armor" className="position-absolute w-100 start-0 top-0" />
+                                                        </div>
+                                                        <div className="game-unit_b-icon_base position-absolute w-100 h-100 start-0 top-0 d-flex mw-100 align-items-center justify-content-center">
+                                                          <Image src={getTankShellIconPath(ammo)} alt={`${ammo.ammunition.variant} shell icon`} className="h-100 flex-grow-0 flex-shrink-1" />
+                                                        </div>
+                                                      </div>
+                                                      <span className="shell-designation">{ammo.ammunition.designation}</span>
+                                                    </Button>
+                                                  </OverlayTrigger>
+                                                </td>
+                                                <td className="shell-variant py-1 px-0 align-content-center">{ammo.ammunition.variant}</td>
+                                                <td className="shell-pen py-1 px-0 align-content-center">{ammo.penetration_mm}</td>
+                                              </tr>
+                                            ))}
+                                          </>
+                                        ) : (
+                                          <>
+                                            {vehicle_weapon.vehicle_belts.map((belt: any) => {
+                                              const beltKey = `${vehicle_weapon.id}-${belt.belt_id}`;
+
+                                              return (
+                                                <tr key={beltKey} className={belt.belt_id}>
                                                   <td className="py-1 px-0 align-content-center d-flex border-0">
                                                     <OverlayTrigger
                                                       trigger="click"
                                                       placement="auto"
-                                                      show={activeAmmoId === ammo.id}
+                                                      show={activeBeltKey === beltKey}
                                                       rootClose
                                                       onToggle={(nextShow) => {
-                                                        if (!nextShow && activeAmmoId === ammo.id) {
-                                                          setActiveAmmoId(null);
+                                                        if (!nextShow && activeBeltKey === beltKey) {
+                                                          setActiveBeltKey(null);
                                                         }
                                                       }}
-                                                      overlay={ShellPopover(ammo)}
+                                                      overlay={BeltPopover(belt)}
                                                     >
                                                       <Button
                                                         variant="transparent"
                                                         className="border-0 text-light d-inline-flex align-items-center column-gap-2 py-0 ps-2 ms-1 pe-1"
-                                                        onClick={() => setActiveAmmoId((current) => current === ammo.id ? null : ammo.id)}
-                                                        aria-label={`Show details for ${ammo.ammunition.designation}`}
+                                                        onClick={() => setActiveBeltKey((current) => current === beltKey ? null : beltKey)}
+                                                        aria-label={`Show details for ${belt.belt.name}`}
                                                       >
                                                         <div className="game-unit_b-icon position-relative overflow-hidden">
-                                                          <div className="game-unit_b-icon_decor position-absolute w-100 h-100 start-0 top-0">
-                                                            <Image src={getTankShellDecorIcons(ammo).damage} alt="Damage" className="position-absolute w-100 start-0 top-0" />
-                                                            <Image src={getTankShellDecorIcons(ammo).armor} alt="Armor" className="position-absolute w-100 start-0 top-0" />
-                                                          </div>
-                                                          <div className="game-unit_b-icon_base position-absolute w-100 h-100 start-0 top-0 d-flex mw-100 align-items-center justify-content-center">
-                                                            <Image src={getTankShellIconPath(ammo)} alt={`${ammo.ammunition.variant} shell icon`} className="h-100 flex-grow-0 flex-shrink-1" />
-                                                          </div>
+                                                          <BeltIcon belt={belt.belt.belt_ammunition} />
                                                         </div>
-                                                        <span className="shell-designation">{ammo.ammunition.designation}</span>
+                                                        <span className="belt-name">{belt.belt.name}</span>
                                                       </Button>
                                                     </OverlayTrigger>
                                                   </td>
-                                                  <td className="shell-variant py-1 px-0 align-content-center">{ammo.ammunition.variant}</td>
-                                                  <td className="shell-pen py-1 px-0 align-content-center">{ammo.penetration_mm}</td>
+                                                  <td className="belt-filling py-1 px-0 align-content-center">{belt.belt.belt_filling}</td>
+                                                  <td className="belt-pen py-1 px-0 align-content-center">{belt.belt.max_penetration_mm}</td>
                                                 </tr>
-                                              ))}
-                                            </>
-                                          ) : (
-                                            <>
-                                              {vehicle_weapon.vehicle_belts.map((belt: any) => {
-                                                const beltKey = `${vehicle_weapon.id}-${belt.belt_id}`;
+                                              );
+                                            })}
+                                          </>
+                                        )}
+                                      </tbody>
+                                    </Table>
+                                  </Accordion.Body>
+                                </Accordion.Item>
+                              </Accordion>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </>
+            )}
+          </div>
 
-                                                return (
-                                                  <tr key={beltKey} className={belt.belt_id}>
-                                                    <td className="py-1 px-0 align-content-center d-flex border-0">
-                                                      <OverlayTrigger
-                                                        trigger="click"
-                                                        placement="auto"
-                                                        show={activeBeltKey === beltKey}
-                                                        rootClose
-                                                        onToggle={(nextShow) => {
-                                                          if (!nextShow && activeBeltKey === beltKey) {
-                                                            setActiveBeltKey(null);
-                                                          }
-                                                        }}
-                                                        overlay={BeltPopover(belt)}
-                                                      >
-                                                        <Button
-                                                          variant="transparent"
-                                                          className="border-0 text-light d-inline-flex align-items-center column-gap-2 py-0 ps-2 ms-1 pe-1"
-                                                          onClick={() => setActiveBeltKey((current) => current === beltKey ? null : beltKey)}
-                                                          aria-label={`Show details for ${belt.belt.name}`}
-                                                        >
-                                                          <div className="game-unit_b-icon position-relative overflow-hidden">
-                                                            <BeltIcon belt={belt.belt.belt_ammunition} />
-                                                          </div>
-                                                          <span className="belt-name">{belt.belt.name}</span>
-                                                        </Button>
-                                                      </OverlayTrigger>
-                                                    </td>
-                                                    <td className="belt-filling py-1 px-0 align-content-center">{belt.belt.belt_filling}</td>
-                                                    <td className="belt-pen py-1 px-0 align-content-center">{belt.belt.max_penetration_mm}</td>
-                                                  </tr>
-                                                );
-                                              })}
-                                            </>
-                                          )}
-                                        </tbody>
-                                      </Table>
-                                    </Accordion.Body>
-                                  </Accordion.Item>
-                                </Accordion>
-                              </div>
+          <div className="game-unit_data-specification position-relative w-100">
+            <div id="specification">
+              {vehicle.vehicle_armour[0] && (
+                <>
+                  <Card className="mb-3 border-0 w-100">
+                    <Card.Header className="fs-6">Survivability and armour</Card.Header>
+
+                    <Card.Body className="pt-2 fs-6">
+                      {vehicle.vehicle_armour[0].features && (
+                        <div className="game-unit_features d-grid gap-1 mt-1 mb-2">
+                          {vehicle.vehicle_armour[0].features.map((feature: any) => (
+                            <OverlayTrigger
+                              key={feature.id}
+                              trigger="click"
+                              placement="auto"
+                              show={activeFeatureId === feature.id}
+                              rootClose
+                              onToggle={(nextShow) => {
+                                if (!nextShow && activeFeatureId === feature.id) {
+                                  setActiveFeatureId(null);
+                                }
+                              }}
+                              overlay={FeaturePopover(feature)}
+                            >
+                              <Button
+                                variant="transparent"
+                                className="game-unit_feature d-flex align-items-center border-secondary gap-2 overflow-hidden"
+                                onClick={() => setActiveFeatureId((current) => current === feature.id ? null : feature.id)}
+                                aria-label={`Show details for ${feature.name}`}
+                              >
+                                <div className="icon">{getFeatureIcons(feature.id)}</div>
+
+                                <span className="small overflow-hidden">{feature.name}</span>
+                              </Button>
+                            </OverlayTrigger>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="game-unit_chars fs-6">
+                        <div className="game-unit_chars-block">
+                          <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
+                            <span className="game-unit_chars-header fw-bold">Armour</span>
+                            <span className="game-unit_chars-value small">front / side / back</span>
+                          </div>
+
+                          <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
+                            <span>Hull</span>
+                            <span className="game-unit_chars-value">{vehicle.vehicle_armour[0].hull_armour_mm.join(' / ')} mm</span>
+                          </div>
+
+                          <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
+                            <span>Turret</span>
+                            <span className="game-unit_chars-value">{vehicle.vehicle_armour[0].turret_armour_mm.join(' / ')} mm</span>
+                          </div>
+                        </div>
+                        <div className="game-unit_chars-block">
+                          <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
+                            <span className="game-unit_chars-header fw-bold">Crew</span>
+                            <span className="game-unit_chars-value">{vehicle.crew} persons</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {vehicle.support_systems && (
+                        <>
+                          <div className="mt-3 text-muted small">Support systems</div>
+                          <div className="game-unit_features d-grid gap-1">
+                            {vehicle.support_systems.map((feature: any) => (
+                              <OverlayTrigger
+                                key={feature.id}
+                                trigger="click"
+                                placement="auto"
+                                show={activeFeatureId === feature.id}
+                                rootClose
+                                onToggle={(nextShow) => {
+                                  if (!nextShow && activeFeatureId === feature.id) {
+                                    setActiveFeatureId(null);
+                                  }
+                                }}
+                                overlay={FeaturePopover(feature)}
+                              >
+                                <Button
+                                  variant="transparent"
+                                  className="game-unit_feature d-flex align-items-center border-secondary gap-2 overflow-hidden"
+                                  onClick={() => setActiveFeatureId((current) => current === feature.id ? null : feature.id)}
+                                  aria-label={`Show details for ${feature.name}`}
+                                >
+                                  <div className="icon">{getFeatureIcons(feature.id)}</div>
+
+                                  <span className="small overflow-hidden">{feature.name}</span>
+                                </Button>
+                              </OverlayTrigger>
+                            ))}
+                          </div>
+                        </>
+                      )}
+                    </Card.Body>
+                  </Card>
+                </>
+              )}
+
+              {vehicle.vehicle_mobility[0] && (
+                <>
+                  <Card className="mb-3 border-0 w-100">
+                    <Card.Header className="fs-6">Mobility</Card.Header>
+
+                    <Card.Body className="pt-2 fs-6">
+                      {vehicle.vehicle_mobility[0].features && (
+                        <div className="game-unit_features d-grid gap-1 mt-1 mb-2">
+                          {vehicle.vehicle_mobility[0].features.map((feature: any) => (
+                            <OverlayTrigger
+                              key={feature.id}
+                              trigger="click"
+                              placement="auto"
+                              show={activeFeatureId === feature.id}
+                              rootClose
+                              onToggle={(nextShow) => {
+                                if (!nextShow && activeFeatureId === feature.id) {
+                                  setActiveFeatureId(null);
+                                }
+                              }}
+                              overlay={FeaturePopover(feature)}
+                            >
+                              <Button
+                                variant="transparent"
+                                className="game-unit_feature d-flex align-items-center border-secondary gap-2 overflow-hidden"
+                                onClick={() => setActiveFeatureId((current) => current === feature.id ? null : feature.id)}
+                                aria-label={`Show details for ${feature.name}`}
+                              >
+                                <div className="icon">{getFeatureIcons(feature.id)}</div>
+
+                                <span className="small overflow-hidden">{feature.name}</span>
+                              </Button>
+                            </OverlayTrigger>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="game-unit_chars fs-6">
+                        <div className="game-unit_chars-block">
+                          <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
+                            <span className="game-unit_chars-header fw-bold">Max speed</span>
+                          </div>
+
+                          <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
+                            <span>Forward</span>
+                            <span className="game-unit_chars-value">{vehicle.vehicle_mobility[0].max_speed_fwd} km/h</span>
+                          </div>
+
+                          <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
+                            <span>Backward</span>
+                            <span className="game-unit_chars-value">{vehicle.vehicle_mobility[0].max_speed_bwd} km/h</span>
+                          </div>
+                        </div>
+
+                        <div className="game-unit_chars-block">
+                          <div className="game-unit_chars-line d-flex align-items-center justify-content-between gap-1 mb-1 pb-1">
+                            <span className="game-unit_chars-header fw-bold">Power-to-weight ratio</span>
+                            <span className="game-unit_chars-value">{vehicle.vehicle_mobility[0].ptw_ratio_hp_t} hp/t</span>
+                          </div>
+
+                          <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
+                            <span>Engine power</span>
+                            <span className="game-unit_chars-value">{vehicle.vehicle_mobility[0].engine_power_hp} hp</span>
+                          </div>
+
+                          <div className="game-unit_chars-subline d-flex align-items-center justify-content-between gap-1 mb-1 pb-1 ps-3">
+                            <span>Weight</span>
+                            <span className="game-unit_chars-value">{vehicle.vehicle_mobility[0].weight_t} t</span>
+                          </div>
+                        </div>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </>
+              )}
+
+              {vehicle.vehicle_optics[0] && (
+                <>
+                  <Card className="mb-3 border-0 w-100">
+                    <Card.Header className="fs-6">Optics</Card.Header>
+
+                    <Card.Body className="pt-2 fs-6">
+                      {vehicle.vehicle_optics_features && (
+                        <div className="game-unit_features d-grid gap-1 mt-1 mb-2">
+                          {vehicle.vehicle_optics_features.map((feature: any) => (
+                            <OverlayTrigger
+                              key={feature.id}
+                              trigger="click"
+                              placement="auto"
+                              show={activeFeatureId === feature.id}
+                              rootClose
+                              onToggle={(nextShow) => {
+                                if (!nextShow && activeFeatureId === feature.id) {
+                                  setActiveFeatureId(null);
+                                }
+                              }}
+                              overlay={FeaturePopover(feature)}
+                            >
+                              <Button
+                                variant="transparent"
+                                className="game-unit_feature d-flex align-items-center border-secondary gap-2 overflow-hidden"
+                                onClick={() => setActiveFeatureId((current) => current === feature.id ? null : feature.id)}
+                                aria-label={`Show details for ${feature.name}`}
+                              >
+                                <div className="icon">{getFeatureIcons(feature.id)}</div>
+
+                                <span className="small overflow-hidden">{feature.name}</span>
+                              </Button>
+                            </OverlayTrigger>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="gunit_specs-table d-grid overflow-x-auto">
+                        <div className="gunit_specs-table_row d-flex gap-1 text-center pb-1">
+                          {vehicle.vehicle_optics.map((optic: any) => (
+                            <div key={optic.id} className="flex-grow-1 flex-shrink-1">{optic.crew_member}</div>
+                          ))}
+                        </div>
+
+                        <div className="my-1 text-muted small">Optics zoom</div>
+
+                        <div className="gunit_specs-table_row d-flex gap-1 text-center pb-1">
+                          {vehicle.vehicle_optics.map((optic: any) => (
+                            <div key={optic.id} className="flex-grow-1 flex-shrink-1">{optic.optics_zoom ? optic.optics_zoom : '-'}</div>
+                          ))}
+                        </div>
+
+                        <div className="my-1 text-muted small">Optical device</div>
+
+                        <div className="gunit_specs-table_row d-flex gap-1 text-center pb-1">
+                          {vehicle.vehicle_optics.map((optic: any) => (
+                            <div key={optic.optical_device.id} className="flex-grow-1 flex-shrink-1 d-flex justify-content-center">
+                              <OverlayTrigger
+                                trigger="click"
+                                placement="auto"
+                                show={activeFeatureId === `${optic.id}-${optic.optical_device_id}`}
+                                rootClose
+                                onToggle={(nextShow) => {
+                                  if (!nextShow && activeFeatureId === `${optic.id}-${optic.optical_device_id}`) {
+                                    setActiveFeatureId(null);
+                                  }
+                                }}
+                                overlay={OpticalDevicePopover(optic)}
+                              >
+                                <Button
+                                  variant="transparent"
+                                  className="gunit_specs-table_btn d-flex align-items-center border-0 overflow-hidden"
+                                  onClick={() => setActiveFeatureId((current) => current === `${optic.id}-${optic.optical_device_id}` ? null : `${optic.id}-${optic.optical_device_id}`)}
+                                  aria-label={`Show details for ${optic.optical_device.name}`}
+                                >
+                                  <span className="small overflow-hidden">{optic.optical_device.name}</span>
+                                </Button>
+                              </OverlayTrigger>
                             </div>
                           ))}
                         </div>
