@@ -14,7 +14,7 @@ export default function VehicleDetailsPage() {
 
   const [isMobile, setIsMobile] = useState(false);
   const [vehicle, setVehicle] = useState<any>();
-  const [session, setSession] = useState<any>();
+  const [session, setSession] = useState<any>(null);
   const [error, setError] = useState<any>();
   
   useEffect(() => {
@@ -158,25 +158,91 @@ export default function VehicleDetailsPage() {
     setVehicle(data);
   }
 
+  // function getDocumentTitle() {
+  //   if (vehicle.id === "germ_leopard_2a5_yt_cup_2019") return "Leopard 2A5 (Germany)"
+  //   if (vehicle.id === "uk_challenger_ii_yt_cup_2019") return "Challenger 2 (Great Britain)"
+  //   if (vehicle.id === "ussr_t_80u_yt_cup_2019") return "T-80U (USSR)"
+  //   return vehicle.name
+  // }
+
+  // useEffect(() => {
+  //   if (!vehicle) return
+
+  //   const image =
+  //     `https://static.encyclopedia.warthunder.com/images/${vehicle.id.toLowerCase()}.png`
+
+  //   let ogImage = document.querySelector<HTMLMetaElement>(
+  //     'meta[property="og:image"]'
+  //   )
+
+  //   if (!ogImage) {
+  //     ogImage = document.createElement('meta')
+  //     ogImage.setAttribute('property', 'og:image')
+  //     document.head.appendChild(ogImage)
+  //   }
+
+  //   ogImage.content = image
+  // }, [vehicle])
+  
+  // if (!vehicle) return null
+  // document.title = `${getDocumentTitle()} - War Thunder Vehicle Dashboard`
+
   function getDocumentTitle() {
-    if (vehicle.id === "germ_leopard_2a5_yt_cup_2019") return "Leopard 2A5 (Germany)"
-    if (vehicle.id === "uk_challenger_ii_yt_cup_2019") return "Challenger 2 (Great Britain)"
-    if (vehicle.id === "ussr_t_80u_yt_cup_2019") return "T-80U (USSR)"
+    if (!vehicle) return ""
+
+    if (vehicle.id === "germ_leopard_2a5_yt_cup_2019")
+      return "Leopard 2A5 (Germany)"
+
+    if (vehicle.id === "uk_challenger_ii_yt_cup_2019")
+      return "Challenger 2 (Great Britain)"
+
+    if (vehicle.id === "ussr_t_80u_yt_cup_2019")
+      return "T-80U (USSR)"
+
     return vehicle.name
   }
-  
+
+  useEffect(() => {
+    if (!vehicle) return
+
+    // Update page title
+    document.title =
+      `${getDocumentTitle()} - War Thunder Vehicle Dashboard`
+
+    // Update favicon / site icon
+    const image =
+      `https://static.encyclopedia.warthunder.com/assets/gunit_social/${vehicle.id.toLowerCase()}.jpg`
+
+    // let favicon = document.querySelector<HTMLLinkElement>(
+    //   'link[rel="icon"]'
+    // )
+
+    // if (!favicon) {
+    //   favicon = document.createElement("link")
+    //   favicon.rel = "icon"
+    //   document.head.appendChild(favicon)
+    // }
+
+    // favicon.href = image
+
+    // Update Open Graph image
+    let ogImage = document.querySelector<HTMLMetaElement>(
+      'meta[property="og:image"]'
+    )
+
+    if (!ogImage) {
+      ogImage = document.createElement("meta")
+      ogImage.setAttribute("property", "og:image")
+      document.head.appendChild(ogImage)
+    }
+
+    ogImage.content = image
+  }, [vehicle])
+
   if (!vehicle) return null
-  document.title = `${getDocumentTitle()} - War Thunder Vehicle Dashboard`
 
   return (
     <>
-      {/* <meta name="og:image" content={`https://wiki.warthunder.com/assets/gunit_social/${vehicle.id}.jpg`} /> */}
-      <meta name="og:image" content="https://warthunder-vehicle-dashboard.vercel.app/assets/germ_leopard_2pl.jpg" />
-      {/* <meta name="og:image:width" content="1200" />
-      <meta name="og:image:height" content="630" />
-      <meta name="twitter:image" content={`https://wiki.warthunder.com/assets/gunit_social/${vehicle.id}.jpg`} />
-      <meta name="vk:image" content={`https://wiki.warthunder.com/assets/gunit_social/${vehicle.id}.jpg`} /> */}
-
       <Container className="px-0 py-4 p-md-4 d-flex flex-column align-items-center">
         <div className="mb-3 d-flex justify-content-between w-100">
           <Button variant="primary" className={`border-0 rounded-1 px-3 fs-5 d-inline-flex column-gap-1 fw-semibold${isMobile ? ' rounded-start-0' : ''}`} href="/">
@@ -184,7 +250,7 @@ export default function VehicleDetailsPage() {
             <p className="my-auto">Back to Home</p>
           </Button>
 
-          <Button variant="transparent" className="border-0" onClick={session.session ? logout : login}>{session.session  ? 'Logout' : 'Login'}</Button>
+          <Button variant="transparent" className="border-0" onClick={session?.session ? logout : login}>{session?.session  ? 'Logout' : 'Login'}</Button>
         </div>
 
         <VehicleDetails vehicle={vehicle} />
