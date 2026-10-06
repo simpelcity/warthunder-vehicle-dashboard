@@ -211,7 +211,7 @@ export default function VehicleDetailsPage() {
 
     // Update favicon / site icon
     const image =
-      `https://static.encyclopedia.warthunder.com/assets/gunit_social/${vehicle.id.toLowerCase()}.jpg`
+      `https://static.encyclopedia.warthunder.com/images/${vehicle.id.toLowerCase()}.png`
 
     let favicon = document.querySelector<HTMLLinkElement>(
       'link[rel="icon"]'
