@@ -12,7 +12,7 @@ import { getTankShellVariantName } from '@/constants/TankShellVariantNames'
 import { getBulletVariantName } from '@/constants/TankBeltBulletVariants'
 import { getFeatureIcons } from '@/constants/FeatureIcons'
 import { supabase } from '@/lib/supabaseClient'
-import WebShare from '@/components/WebShare'
+import { WebShare } from '@/components'
 import type { BeltBulletNames } from '@/types/Ammunition'
 
 type VehicleDetails = {
