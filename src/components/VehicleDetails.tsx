@@ -371,7 +371,7 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                           {vehicle.status_id === "techtree" ? (
                             <Image src="https://static.encyclopedia.warthunder.com/gui_skin/item_type_rp.svg" width="18px" alt="RP" title="Research Points" />
                           ) : vehicle.status_id === "squadron" && (
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 100 100" fill="#738451">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 100 100" fill="#93BE64">
                               <path className="cls-1" d="M50,94A44,44,0,1,1,94,50,44.019,44.019,0,0,1,50,94Zm0-4.552A39.473,39.473,0,0,0,89.449,50a47.076,47.076,0,0,0-.277-5.015H71.582L58.9,83.918,50.939,36.459l-8.91,35.7L31.949,44.113l-5.719,13.9H11.248C14.7,76.273,30.73,89.449,50,89.449Zm0-78.9A39.447,39.447,0,0,0,10.552,50c0,0.934.044,3.054,0.108,3.973H23.218L32.3,31.634l8.941,24.876,10.57-42.345L60.345,65,68.29,41H88.367A39.615,39.615,0,0,0,50,10.552Z"></path>
                             </svg>
                           )}
@@ -403,7 +403,7 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                   <div className="game-unit_card-info_line d-flex w-100 mw-100 gap-1">
                     <div className="game-unit_card-info_item flex-grow-1 bg-dark-subtle d-flex flex-column position-relative rounded-1 overflow-hidden gap-1 py-2 px-3">
                       <div className="game-unit_card-info_value game-unit_status d-flex align-items-center flex-grow-1 fs-6">
-                        <Image src={getStatusIcons(vehicle.vehicle_statuses.id)} height={15} />
+                        <Image src={getStatusIcons(vehicle.vehicle_statuses.id)} height={20} />
 
                         <div className="text-truncate">{vehicle.vehicle_statuses.name} vehicle</div>
                       </div>
@@ -446,11 +446,9 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                 </Button>
               </ToolTip>
 
-              <ToolTip title="Share">
-                {navigator.share !== null && (
-                  <WebShare />
-                )}
-              </ToolTip>
+              {navigator.share !== null && (
+                <WebShare />
+              )}
 
               <div className="game-unit_compare-wrapper">
                 <Button variant="dark" id="game-unit_compare" className="game-unit_control position-relative py-1 gap-1 d-flex align-items-center justify-content-center border-0">
@@ -586,11 +584,11 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                               )}
 
                               <div className="game-unit_belts mt-2">
-                                <Accordion>
+                                <Accordion className="fs-6">
                                   <Accordion.Item eventKey="0">
                                     <Accordion.Header>{vehicle_weapon.type === "cannon" ? "Available ammunition" : "Available belts"}</Accordion.Header>
                                     <Accordion.Body className="p-0">
-                                      <Table className="game-unit_belt-list w-100 text-center m-0 fs-6">
+                                      <Table className="game-unit_belt-list w-100 text-center m-0">
                                         <thead>
                                           <tr>
                                             {vehicle_weapon.type === "cannon" ? (
