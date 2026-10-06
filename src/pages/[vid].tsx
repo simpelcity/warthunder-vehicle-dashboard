@@ -213,17 +213,17 @@ export default function VehicleDetailsPage() {
     const image =
       `https://static.encyclopedia.warthunder.com/assets/gunit_social/${vehicle.id.toLowerCase()}.jpg`
 
-    // let favicon = document.querySelector<HTMLLinkElement>(
-    //   'link[rel="icon"]'
-    // )
+    let favicon = document.querySelector<HTMLLinkElement>(
+      'link[rel="icon"]'
+    )
 
-    // if (!favicon) {
-    //   favicon = document.createElement("link")
-    //   favicon.rel = "icon"
-    //   document.head.appendChild(favicon)
-    // }
+    if (!favicon) {
+      favicon = document.createElement("link")
+      favicon.rel = "icon"
+      document.head.appendChild(favicon)
+    }
 
-    // favicon.href = image
+    favicon.href = image
 
     // Update Open Graph image
     let ogImage = document.querySelector<HTMLMetaElement>(
