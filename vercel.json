@@ -1,12 +1,5 @@
 {
   "rewrites": [
-    {
-      "source": "/vehicle/:slug",
-      "destination": "/api/vehicle-meta?slug=:slug"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
