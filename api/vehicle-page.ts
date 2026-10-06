@@ -14,6 +14,15 @@ function escapeHtml(value: string): string {
   });
 }
 
+function getDocumentTitle(vehicle: { id: string, name: string }) {
+  if (!vehicle) return ""
+
+  if (vehicle.id === "germ_leopard_2a5_yt_cup_2019") return "Leopard 2A5 (Germany)"
+  if (vehicle.id === "uk_challenger_ii_yt_cup_2019") return "Challenger 2 (Great Britain)"
+  if (vehicle.id === "ussr_t_80u_yt_cup_2019") return "T-80U (USSR)"
+  return vehicle.name
+}
+
 export default async function handler(
   req: VercelRequest,
   res: VercelResponse
@@ -69,8 +78,8 @@ export default async function handler(
       if (vehicleResponse.ok) {
         const vehicles = await vehicleResponse.json();
 
-        if (Array.isArray(vehicles) && vehicles[0]?.name) {
-          vehicleName = vehicles[0].name;
+        if (Array.isArray(vehicles) && vehicles[0]) {
+          vehicleName = getDocumentTitle(vehicles[0]);
         }
       }
     } catch {
