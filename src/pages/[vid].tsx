@@ -157,9 +157,16 @@ export default function VehicleDetailsPage() {
     
     setVehicle(data);
   }
+
+  function getDocumentTitle() {
+    if (vehicle.id === "germ_leopard_2a5_yt_cup_2019") return "Leopard 2A5 (Germany)"
+    if (vehicle.id === "uk_challenger_ii_yt_cup_2019") return "Challenger 2 (Great Britain)"
+    if (vehicle.id === "ussr_t_80u_yt_cup_2019") return "T-80U (USSR)"
+    return vehicle.name
+  }
   
   if (!vehicle) return null
-  document.title = `${vehicle.name} - War Thunder Vehicle Dashboard`
+  document.title = `${getDocumentTitle()} - War Thunder Vehicle Dashboard`
 
   return (
     <>
