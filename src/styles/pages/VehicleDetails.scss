@@ -141,12 +141,6 @@
   height: 30px;
 }
 
-// .shell-designation,
-// .belt-name {
-//   text-decoration: underline;
-//   text-decoration-style: dotted;
-// }
-
 .game-unit_popover {
   width: 100%;
   max-width: 250px !important;
@@ -190,46 +184,22 @@
   .game-unit_card {
     padding-top: 50%;
   }
-  
+
+  .game-unit_template-flag {
+    top: -5px;
+  }
+
   .game-unit_template-image {
     padding-top: 20px;
   }
 
-  .game-unit_title {
-    padding: 0 15px;
-  }
-
-  .game-unit_nation {
-    font-size: 14px;
-  }
-
-  .game-unit_name {
-    font-size: 28px;
-  }
-
-  .game-unit_card-info {
-    position: relative;
-    top: 0;
-    left: 0;
-    margin: 5px 0;
-    max-width: 420px;
-    width: 100%;
-    padding: 0 10px;
-  }
-
-  .game-unit_controls {
-    padding: 0 15px;
-    height: 44px;
-  }
-
-  .game-unit_control {
-    height: 28px;
-    font-size: 12px;
+  .game-unit_template::after {
+    --gradient-height: 30vw;
   }
 }
 
 @media (min-width: 768px) and (max-width: 992px) {
   .game-unit_card {
-    padding-top: 42.858%;
+    padding-top: 45%;
   }
 }

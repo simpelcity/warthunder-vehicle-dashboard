@@ -383,7 +383,7 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
                 <Image className="game-unit_template-image position-absolute start-0 bottom-0 h-100" src={`https://static.encyclopedia.warthunder.com/images/${vehicle.id.toLowerCase()}.png`} />
               </div>
 
-              <div className="game-unit_title position-absolute bottom-0 w-100 z-1 px-4">
+              <div className="game-unit_title position-absolute bottom-0 w-100 z-1 px-3 px-lg-4">
                 <div className="game-unit_nation d-flex align-items-end gap-2 overflow-hidden fs-6">{vehicle.vehicle_types.name}</div>
 
                 <div className="game-unit_name fw-bold fs-1 overflow-hidden font-wt">{vehicle.name}</div>
@@ -559,7 +559,7 @@ export default function VehicleDetails({ vehicle }: VehicleDetails) {
           </div>
         </div>
 
-        <div className="game-unit_content d-flex column-gap-3">
+        <div className="game-unit_content d-flex flex-column flex-lg-row column-gap-3">
           <div className="game-unit_data position-relative w-100">
             {vehicle.vehicle_weapons.length !== 0 && (
               <>
