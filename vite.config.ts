@@ -11,14 +11,14 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@/src": resolve(__dirname, "src"),
-      "@/assets": resolve(__dirname, "src/assets"),
-      "@/types": resolve(__dirname, "src/types"),
-      "@/styles": resolve(__dirname, "src/styles"),
-      "@/pages": resolve(__dirname, "src/pages"),
-      "@/constants": resolve(__dirname, "src/constants"),
-      "@/components": resolve(__dirname, "src/components"),
-      "@/lib": resolve(__dirname, "src/lib"),
+      "@/src": resolve(import.meta.dirname, "src"),
+      "@/assets": resolve(import.meta.dirname, "src/assets"),
+      "@/types": resolve(import.meta.dirname, "src/types"),
+      "@/styles": resolve(import.meta.dirname, "src/styles"),
+      "@/pages": resolve(import.meta.dirname, "src/pages"),
+      "@/constants": resolve(import.meta.dirname, "src/constants"),
+      "@/components": resolve(import.meta.dirname, "src/components"),
+      "@/lib": resolve(import.meta.dirname, "src/lib"),
     },
   },
   css: {

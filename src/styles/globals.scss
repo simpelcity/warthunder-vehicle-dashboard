@@ -52,3 +52,14 @@ html {
 .border-secondary {
   border-color: #404040 !important;
 }
+
+:focus, :focus-visible {
+  box-shadow: none !important;
+  outline: none;
+}
+
+.underline-dotted {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: from-font;
+}

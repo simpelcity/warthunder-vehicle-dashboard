@@ -69,15 +69,13 @@ export default function VehicleDetailsPage() {
 
         vehicle_classes (*),
 
-        vehicle_armour (*),
+        vehicle_armour (*, vehicle_armour_features (*, armour_features (*)), vehicle_support_systems (*, support_systems (*))),
 
         vehicle_mobility (*),
 
-        vehicle_optics (
-          *,
+        vehicle_optics (*, optical_device:optical_devices (*)),
 
-          optical_device:optical_devices (*)
-        ),
+        vehicle_optics_features (*, optics_features (*)),
 
         vehicle_weapons (
           id,
@@ -91,7 +89,8 @@ export default function VehicleDetailsPage() {
           reload_time_seconds,
           belt_capacity,
           fire_rate_rpm,
-          features,
+
+          vehicle_weapon_features (*, weapon_features (*)),
 
           weapon:weapons (
             id,
@@ -189,7 +188,7 @@ export default function VehicleDetailsPage() {
             <p className="my-auto">Back to Home</p>
           </Button>
 
-          <Button variant="transparent" className="border-0" onClick={session.session ? logout : login}>{session.session  ? 'Logout' : 'Login'}</Button>
+          <Button variant="transparent" className="border-0" onClick={session?.session ? logout : login}>{session?.session  ? 'Logout' : 'Login'}</Button>
         </div>
 
         <VehicleDetails vehicle={vehicle} />

@@ -14,6 +14,7 @@
       "@/styles/*": ["./src/styles/*"],
       "@/pages/*": ["./src/pages/*"],
       "@/constants/*": ["./src/constants/*"],
+      "@/constants": ["./src/constants/index.ts"],
       "@/components": ["./src/components/index.ts"],
       "@/components/*": ["./src/components/*"],
       "@/lib/*": ["./src/lib/*"],

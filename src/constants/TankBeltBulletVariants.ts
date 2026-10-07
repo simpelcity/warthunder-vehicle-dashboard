@@ -17,7 +17,5 @@ const bulletVariants: Record<BeltBulletNames, string> = {
 }
 
 export function getBulletVariantName(variant: BeltBulletNames) {
-  // if (variant === "Beam-Riding (SACLOS)") return `(${variant})`;
-  // else if (variant)
   return `${bulletVariants[variant]}`;
 }

@@ -27,4 +27,7 @@ $card-bg: $dark-subtle;
 $card-cap-bg: $dark-subtle;
 $card-cap-color: $light;
 
+$progress-height: 6px;
+$progress-border-radius: 0 0 4px 4px;
+
 @import "../../node_modules/bootstrap/scss/bootstrap";

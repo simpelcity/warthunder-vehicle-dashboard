@@ -1,6 +1,4 @@
-// import type { BeltBulletNames } from '@/types/TankBelts'
-
-export type BeltBulletNames = "API-T" | "HEI-T" | "APDS" | "HEFI-T" | "HVAP-T" | "APHE" | "FI-T" | "AP-T" | "HEF-T" | "HVAP" | "AP-I" | "AP" | "T";
+import type { BeltBulletNames } from '@/types/Ammunition'
 
 const WT_SKIN_BASE = "https://static.encyclopedia.warthunder.com/gui_skin";
 
